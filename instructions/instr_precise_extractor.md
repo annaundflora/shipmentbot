@@ -24,7 +24,7 @@ An item has the following attributes:
 - stackable (yes or no)
 
 # Response
-Please present your results in JSON in the format defined by the example. Field order and format are very important.
+Please present your results in JSON in the format defined by the example. Field order and format are very important. Do not add markdown or other text.
 
 ## Format Example (response with 2 items and no error message code):
 ```

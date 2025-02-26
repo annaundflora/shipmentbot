@@ -2,18 +2,16 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_anthropic import ChatAnthropic
 import json
 import re
-from langchain.callbacks.tracers import LangChainTracer
-from langchain.callbacks.manager import CallbackManager
 
-def process_precise(state: dict) -> dict:
+def process_addresses(state: dict) -> dict:
     """
-    Führt eine präzise Extraktion der Sendungsdaten durch.
+    Extrahiert Lade- und Entladeadressen aus der Eingabe.
     """
     messages = state["messages"]
     input_text = messages[-1]
-
-    # Laden der Instruktionen und Escapen der geschweiften Klammern im Beispiel
-    with open("instructions/instr_precise_extractor.md", "r", encoding="utf-8") as f:
+    
+    # Laden der Instruktionen
+    with open("instructions/instr_addresses_extractor.md", "r", encoding="utf-8") as f:
         instructions = f.read()
         # Ersetze nur die geschweiften Klammern im JSON-Beispiel
         start_marker = '```\n{'
@@ -24,7 +22,7 @@ def process_precise(state: dict) -> dict:
             json_example = instructions[start_idx:end_idx]
             escaped_json = json_example.replace('{', '{{').replace('}', '}}')
             instructions = instructions[:start_idx] + escaped_json + instructions[end_idx:]
-
+    
     # Erstellen des Chat-Models mit expliziten Parametern für Claude
     llm = ChatAnthropic(
         model="claude-3-7-sonnet-20250219",
@@ -33,7 +31,7 @@ def process_precise(state: dict) -> dict:
         timeout=10
     )
     
-    # Prompt für die präzise Extraktion
+    # Prompt für die Extraktion von Adressen
     prompt = ChatPromptTemplate.from_messages([
         ("system", instructions),
         ("human", "{input}")
@@ -51,14 +49,13 @@ def process_precise(state: dict) -> dict:
             content = match.group(1)
     
     try:
-        extracted_data = json.loads(content)
+        addresses_data = json.loads(content)
         return {
-            "extracted_data": extracted_data
+            "addresses": addresses_data
         }
     except json.JSONDecodeError as e:
         print(f"JSON Decode Error: {e}")
         print(f"Content: {content}")
         return {
-            "extracted_data": None,
-            "notes": f"Fehler bei der Extraktion der Daten: {str(e)}"
+            "addresses": None
         } 

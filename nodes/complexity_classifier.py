@@ -16,7 +16,13 @@ def process_complexity(state: dict) -> dict:
     messages = state["messages"]
     input_text = messages[-1]
 
-    llm = ChatOpenAI(model="gpt-3.5-turbo")
+    # Erstellen des Chat-Models mit expliziten Parametern
+    llm = ChatOpenAI(
+        model="gpt-4",
+        temperature=0,
+        streaming=False,
+        request_timeout=10
+    )
     
     # Prompt für die Klassifizierung
     classifier_prompt = ChatPromptTemplate.from_messages([

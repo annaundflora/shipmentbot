@@ -9,12 +9,30 @@ def process_precise(state: dict) -> dict:
     messages = state["messages"]
     input_text = messages[-1]
 
-    llm = ChatOpenAI(model="gpt-3.5-turbo")
+    # Laden der Instruktionen und Escapen der geschweiften Klammern im Beispiel
+    with open("instructions/instr_precise_extractor.md", "r", encoding="utf-8") as f:
+        instructions = f.read()
+        # Ersetze nur die geschweiften Klammern im JSON-Beispiel
+        start_marker = '```\n{'
+        end_marker = '}\n```'
+        if start_marker in instructions and end_marker in instructions:
+            start_idx = instructions.index(start_marker)
+            end_idx = instructions.index(end_marker) + len(end_marker)
+            json_example = instructions[start_idx:end_idx]
+            escaped_json = json_example.replace('{', '{{').replace('}', '}}')
+            instructions = instructions[:start_idx] + escaped_json + instructions[end_idx:]
+
+    # Erstellen des Chat-Models mit expliziten Parametern
+    llm = ChatOpenAI(
+        model="gpt-4",
+        temperature=0,
+        streaming=False,
+        request_timeout=10
+    )
     
     # Prompt für die präzise Extraktion
     prompt = ChatPromptTemplate.from_messages([
-        ("system", "Du bist ein Experte für die Extraktion von Sendungsdaten. "
-                  "Extrahiere alle relevanten Informationen präzise im spezifizierten Format."),
+        ("system", instructions),
         ("human", "{input}")
     ])
     
@@ -24,7 +42,7 @@ def process_precise(state: dict) -> dict:
         extracted_data = json.loads(response.content)
         return {
             "messages": messages,
-            "next_step": "notes_extractor",
+            "next_step": "end",
             "extracted_data": extracted_data,
             "notes": None
         }

@@ -14,7 +14,13 @@ from nodes.addresses_extractor import process_addresses
 load_dotenv()
 
 # LangSmith Client initialisieren
-client = Client()
+client = Client(
+    api_key=os.getenv("LANGSMITH_API_KEY"),
+    api_url=os.getenv("LANGSMITH_ENDPOINT")
+)
+
+# LangSmith Projekt setzen
+os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGSMITH_PROJECT", "Shipmentbot")
 
 # Definition des Zustandstyps mit Annotated für parallele Verarbeitung
 class AgentState(TypedDict):
@@ -77,19 +83,17 @@ def main():
             # Workflow ausführen mit LangSmith Tracing
             chain = create_workflow()
             
-            # LangSmith Projekt setzen
-            os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGSMITH_PROJECT", "Shipmentbot")
-            
             # Ausführen mit Tracing
-            response = chain.invoke({
-                "messages": [user_input],
-                "extracted_data": None,
-                "notes": None,
-                "addresses": None
-            })
-            
-            # Warten auf Abschluss aller Traces
-            wait_for_all_tracers()
+            with st.spinner("Verarbeite Sendungsdaten..."):
+                response = chain.invoke({
+                    "messages": [user_input],
+                    "extracted_data": None,
+                    "notes": None,
+                    "addresses": None
+                })
+                
+                # Warten auf Abschluss aller Traces
+                wait_for_all_tracers()
             
             # Ergebnisse anzeigen
             col1, col2 = st.columns(2)
@@ -114,6 +118,12 @@ def main():
                     st.info(response["notes"])
                 else:
                     st.warning("Keine zusätzlichen Hinweise gefunden.")
+                    
+                # LangSmith Link anzeigen
+                if os.getenv("LANGSMITH_TRACING") == "true":
+                    st.subheader("LangSmith Tracing")
+                    langsmith_url = f"{os.getenv('LANGSMITH_ENDPOINT', 'https://eu.smith.langchain.com')}/projects/{os.getenv('LANGSMITH_PROJECT', 'Shipmentbot')}"
+                    st.markdown(f"[Öffne LangSmith Dashboard]({langsmith_url})")
         else:
             st.warning("Bitte geben Sie Sendungsdaten ein.")
 
@@ -122,6 +132,12 @@ def main():
         st.write("Rohdaten der letzten Verarbeitung:")
         if 'response' in locals():
             st.write(response)
+        
+        # LangSmith Konfiguration anzeigen
+        st.subheader("LangSmith Konfiguration")
+        st.write(f"LANGSMITH_TRACING: {os.getenv('LANGSMITH_TRACING')}")
+        st.write(f"LANGSMITH_PROJECT: {os.getenv('LANGSMITH_PROJECT')}")
+        st.write(f"LANGSMITH_ENDPOINT: {os.getenv('LANGSMITH_ENDPOINT')}")
 
 if __name__ == "__main__":
     main()

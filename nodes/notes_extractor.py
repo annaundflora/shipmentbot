@@ -1,6 +1,8 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_anthropic import ChatAnthropic
 import re
+from langchain_core.tracers import LangChainTracer
+import os
 
 def process_notes(state: dict) -> dict:
     """
@@ -13,12 +15,21 @@ def process_notes(state: dict) -> dict:
     with open("instructions/instr_notes_extractor.md", "r", encoding="utf-8") as f:
         instructions = f.read()
     
-    # Erstellen des Chat-Models mit expliziten Parametern für Claude
+    # LangSmith Tracing einrichten
+    callbacks = []
+    if os.getenv("LANGSMITH_TRACING") == "true":
+        callbacks.append(LangChainTracer(
+            project_name=os.getenv("LANGSMITH_PROJECT", "Shipmentbot"),
+            tags=["notes_extractor"]
+        ))
+    
+    # Erstellen des Chat-Models mit expliziten Parametern für Claude und Callbacks
     llm = ChatAnthropic(
         model="claude-3-7-sonnet-20250219",
         temperature=0,
         max_tokens=4096,
-        timeout=10
+        timeout=10,
+        callbacks=callbacks
     )
     
     # Prompt für die Extraktion von Hinweisen

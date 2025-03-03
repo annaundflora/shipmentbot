@@ -4,6 +4,8 @@ import json
 import re
 from langchain.callbacks.tracers import LangChainTracer
 from langchain.callbacks.manager import CallbackManager
+from langchain_core.tracers import LangChainTracer
+import os
 
 def process_precise(state: dict) -> dict:
     """
@@ -25,12 +27,21 @@ def process_precise(state: dict) -> dict:
             escaped_json = json_example.replace('{', '{{').replace('}', '}}')
             instructions = instructions[:start_idx] + escaped_json + instructions[end_idx:]
 
-    # Erstellen des Chat-Models mit expliziten Parametern für Claude
+    # LangSmith Tracing einrichten
+    callbacks = []
+    if os.getenv("LANGSMITH_TRACING") == "true":
+        callbacks.append(LangChainTracer(
+            project_name=os.getenv("LANGSMITH_PROJECT", "Shipmentbot"),
+            tags=["precise_extractor"]
+        ))
+    
+    # Erstellen des Chat-Models mit expliziten Parametern für Claude und Callbacks
     llm = ChatAnthropic(
         model="claude-3-7-sonnet-20250219",
         temperature=0,
         max_tokens=4096,
-        timeout=10
+        timeout=10,
+        callbacks=callbacks
     )
     
     # Prompt für die präzise Extraktion

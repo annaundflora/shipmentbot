@@ -2,6 +2,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from typing import TypedDict, Sequence
 import json
+from langchain_core.tracers import LangChainTracer
+import os
 
 class ComplexityClassifierResponse(TypedDict):
     is_complex: bool
@@ -16,12 +18,21 @@ def process_complexity(state: dict) -> dict:
     messages = state["messages"]
     input_text = messages[-1]
 
+    # LangSmith Tracing einrichten
+    callbacks = []
+    if os.getenv("LANGSMITH_TRACING") == "true":
+        callbacks.append(LangChainTracer(
+            project_name=os.getenv("LANGSMITH_PROJECT", "Shipmentbot"),
+            tags=["complexity_classifier"]
+        ))
+
     # Erstellen des Chat-Models mit expliziten Parametern
     llm = ChatOpenAI(
         model="gpt-4",
         temperature=0,
         streaming=False,
-        request_timeout=10
+        request_timeout=10,
+        callbacks=callbacks
     )
     
     # Prompt für die Klassifizierung

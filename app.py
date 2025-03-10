@@ -6,7 +6,7 @@ import os
 from langsmith import Client
 from langchain.callbacks.tracers.langchain import wait_for_all_tracers
 
-from nodes.precise_extractor import process_precise
+from nodes.precise_extractor import process_precise as process_shipment
 from nodes.notes_extractor import process_notes
 from nodes.addresses_extractor import process_addresses
 
@@ -34,14 +34,14 @@ def router(state: AgentState) -> Dict[str, List[str]]:
     """
     Routing-Funktion, die bestimmt, welche Nodes parallel ausgeführt werden sollen.
     """
-    return {"next": ["precise_extractor", "notes_extractor", "addresses_extractor"]}
+    return {"next": ["shipment_extractor", "notes_extractor", "addresses_extractor"]}
 
 def create_workflow():
     """Erstellt den Workflow-Graphen mit paralleler Ausführung"""
     workflow = StateGraph(AgentState)
     
     # Nodes hinzufügen
-    workflow.add_node("precise_extractor", process_precise)
+    workflow.add_node("shipment_extractor", process_shipment)
     workflow.add_node("notes_extractor", process_notes)
     workflow.add_node("addresses_extractor", process_addresses)
     
@@ -50,10 +50,10 @@ def create_workflow():
     
     # Kanten definieren
     workflow.add_edge(START, "parallel_processing")
-    workflow.add_edge("parallel_processing", "precise_extractor")
+    workflow.add_edge("parallel_processing", "shipment_extractor")
     workflow.add_edge("parallel_processing", "notes_extractor")
     workflow.add_edge("parallel_processing", "addresses_extractor")
-    workflow.add_edge("precise_extractor", END)
+    workflow.add_edge("shipment_extractor", END)
     workflow.add_edge("notes_extractor", END)
     workflow.add_edge("addresses_extractor", END)
     

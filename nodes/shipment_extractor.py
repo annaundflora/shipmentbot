@@ -55,8 +55,7 @@ def process_precise(state: dict) -> dict:
     
     if prompt_template is None:
         return {
-            "extracted_data": None,
-            "notes": "Fehler: Konnte den Prompt nicht laden."
+            "extracted_data": None
         }
     
     # LangSmith Tracing einrichten
@@ -97,6 +96,5 @@ def process_precise(state: dict) -> dict:
     except Exception as e:
         print(f"Fehler bei der strukturierten Extraktion: {e}")
         return {
-            "extracted_data": None,
-            "notes": f"Fehler: {str(e)}"
+            "extracted_data": None
         } 

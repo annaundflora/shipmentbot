@@ -6,7 +6,8 @@ import os
 from langsmith import Client
 from langchain.callbacks.tracers.langchain import wait_for_all_tracers
 
-from nodes.precise_extractor import process_precise as process_shipment
+# Verschiebe diese Imports nach unten, um zirkuläre Imports zu vermeiden
+# from nodes.precise_extractor import process_precise as process_shipment
 from nodes.notes_extractor import process_notes
 from nodes.addresses_extractor import process_addresses
 
@@ -18,6 +19,9 @@ client = Client(
     api_key=os.getenv("LANGSMITH_API_KEY"),
     api_url=os.getenv("LANGSMITH_ENDPOINT")
 )
+
+# Jetzt importieren wir process_precise, nachdem die anderen Module geladen wurden
+from nodes.precise_extractor import process_precise as process_shipment
 
 # LangSmith Projekt setzen
 os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGSMITH_PROJECT", "Shipmentbot")

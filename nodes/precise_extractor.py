@@ -7,6 +7,38 @@ import os
 from langsmith import Client
 from langchain_core.messages import HumanMessage, SystemMessage
 
+# Initialisiere den LangSmith Client
+client = Client(
+    api_key=os.getenv("LANGSMITH_API_KEY"),
+    api_url=os.getenv("LANGSMITH_ENDPOINT")
+)
+
+# Prompt-Cache auf Modulebene
+_prompt_cache = {}
+
+def get_cached_prompt(prompt_name):
+    """
+    Holt einen Prompt aus dem Cache oder lädt ihn von LangSmith,
+    wenn er noch nicht im Cache ist.
+    """
+    if prompt_name not in _prompt_cache:
+        try:
+            print(f"Lade Prompt '{prompt_name}' von LangSmith...")
+            _prompt_cache[prompt_name] = client.pull_prompt(prompt_name, include_model=True)
+            print(f"Prompt '{prompt_name}' erfolgreich geladen und gecached.")
+        except Exception as e:
+            print(f"Fehler beim Laden des Prompts '{prompt_name}' von LangSmith: {e}")
+            # Fallback: Lokale Datei laden
+            try:
+                with open(f"instructions/instr_{prompt_name.split('_')[-1]}.md", "r", encoding="utf-8") as f:
+                    prompt_text = f.read()
+                    _prompt_cache[prompt_name] = PromptTemplate.from_template(prompt_text)
+                    print(f"Fallback: Prompt '{prompt_name}' aus lokaler Datei geladen und gecached.")
+            except Exception as e2:
+                print(f"Auch Fallback fehlgeschlagen für '{prompt_name}': {e2}")
+                return None
+    return _prompt_cache[prompt_name]
+
 def process_precise(state: dict) -> dict:
     """
     Führt eine präzise Extraktion der Sendungsdaten durch.
@@ -14,19 +46,25 @@ def process_precise(state: dict) -> dict:
     messages = state["messages"]
     input_text = messages[-1]
 
-    # LangSmith Client initialisieren
-    client = Client(
-        api_key=os.getenv("LANGSMITH_API_KEY"),
-        api_url=os.getenv("LANGSMITH_ENDPOINT")
-    )
+    # Prompt aus Cache oder LangSmith holen
+    prompt_runnable = get_cached_prompt("shipmentbot_shipment")
+    
+    if prompt_runnable is None:
+        return {
+            "extracted_data": None,
+            "notes": "Fehler: Konnte den Prompt nicht laden."
+        }
+    
+    # LangSmith Tracing einrichten
+    callbacks = []
+    if os.getenv("LANGSMITH_TRACING") == "true":
+        callbacks.append(LangChainTracer(
+            project_name=os.getenv("LANGSMITH_PROJECT", "Shipmentbot"),
+            tags=["shipment_extractor"]
+        ))
     
     try:
-        # Prompt aus LangSmith ziehen
-        prompt_runnable = client.pull_prompt("shipmentbot_shipment", include_model=True)
-        print(f"Prompt erfolgreich aus LangSmith geladen: {type(prompt_runnable)}")
-        
-        # Da prompt_runnable ein RunnableSequence ist, können wir es direkt aufrufen
-        # mit dem Input als Parameter
+        # Versuche, den Prompt direkt als Runnable zu verwenden
         result = prompt_runnable.invoke({"input": input_text})
         
         # Das Ergebnis sollte bereits die formatierte Antwort vom LLM sein
@@ -42,18 +80,7 @@ def process_precise(state: dict) -> dict:
     except Exception as e:
         print(f"Fehler beim Verwenden des LangSmith-Prompts: {e}")
         
-        # Fallback: Lokale Datei laden und eigenes LLM verwenden
-        with open("instructions/instr_precise_extractor.md", "r", encoding="utf-8") as f:
-            instructions = f.read()
-        
-        # LangSmith Tracing einrichten
-        callbacks = []
-        if os.getenv("LANGSMITH_TRACING") == "true":
-            callbacks.append(LangChainTracer(
-                project_name=os.getenv("LANGSMITH_PROJECT", "Shipmentbot"),
-                tags=["shipment_extractor"]
-            ))
-        
+        # Fallback: Eigenes LLM verwenden
         # Erstellen des Chat-Models mit expliziten Parametern für Claude und Callbacks
         llm = ChatAnthropic(
             model="claude-3-7-sonnet-20250219",
@@ -63,8 +90,18 @@ def process_precise(state: dict) -> dict:
             callbacks=callbacks
         )
         
-        # Manuelles Ersetzen der Mustache-Variable
-        formatted_prompt = instructions.replace("{{input}}", input_text)
+        # Wenn prompt_runnable ein PromptTemplate ist
+        if hasattr(prompt_runnable, 'template'):
+            try:
+                # Versuche, das Template zu formatieren
+                formatted_prompt = prompt_runnable.format(input=input_text)
+            except Exception as format_error:
+                print(f"Fehler beim Formatieren des Templates: {format_error}")
+                # Manuelles Ersetzen der Mustache-Variable
+                formatted_prompt = prompt_runnable.template.replace("{{input}}", input_text)
+        else:
+            # Fallback: Verwende den Prompt als String
+            formatted_prompt = str(prompt_runnable).replace("{{input}}", input_text)
         
         # Erstellen der Nachrichten für die Anthropic API
         system_message = SystemMessage(content="Du bist ein hilfreicher Assistent, der Sendungsdaten extrahiert.")

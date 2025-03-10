@@ -16,31 +16,28 @@ client = Client(
     api_url=os.getenv("LANGSMITH_ENDPOINT")
 )
 
-# Prompt-Cache auf Modulebene
-_prompt_cache = {}
-
-def get_cached_prompt(prompt_name):
+def load_prompt(prompt_name):
     """
-    Holt einen Prompt aus dem Cache oder lädt ihn von LangSmith,
-    wenn er noch nicht im Cache ist.
+    Lädt einen Prompt von LangSmith oder aus einer lokalen Datei.
+    Das Caching ist deaktiviert, es wird immer ein frischer Prompt geladen.
     """
-    if prompt_name not in _prompt_cache:
+    try:
+        print(f"Lade Prompt '{prompt_name}' von LangSmith...")
+        prompt = client.pull_prompt(prompt_name, include_model=False)
+        print(f"Prompt '{prompt_name}' erfolgreich geladen.")
+        return prompt
+    except Exception as e:
+        print(f"Fehler beim Laden des Prompts '{prompt_name}' von LangSmith: {e}")
+        # Fallback: Lokale Datei laden
         try:
-            print(f"Lade Prompt '{prompt_name}' von LangSmith...")
-            _prompt_cache[prompt_name] = client.pull_prompt(prompt_name, include_model=False)
-            print(f"Prompt '{prompt_name}' erfolgreich geladen und gecached.")
-        except Exception as e:
-            print(f"Fehler beim Laden des Prompts '{prompt_name}' von LangSmith: {e}")
-            # Fallback: Lokale Datei laden
-            try:
-                with open(f"instructions/instr_{prompt_name.split('_')[-1]}.md", "r", encoding="utf-8") as f:
-                    prompt_text = f.read()
-                    _prompt_cache[prompt_name] = PromptTemplate.from_template(prompt_text)
-                    print(f"Fallback: Prompt '{prompt_name}' aus lokaler Datei geladen und gecached.")
-            except Exception as e2:
-                print(f"Auch Fallback fehlgeschlagen für '{prompt_name}': {e2}")
-                return None
-    return _prompt_cache[prompt_name]
+            with open(f"instructions/instr_{prompt_name.split('_')[-1]}.md", "r", encoding="utf-8") as f:
+                prompt_text = f.read()
+                prompt = PromptTemplate.from_template(prompt_text)
+                print(f"Fallback: Prompt '{prompt_name}' aus lokaler Datei geladen.")
+                return prompt
+        except Exception as e2:
+            print(f"Auch Fallback fehlgeschlagen für '{prompt_name}': {e2}")
+            return None
 
 def process_shipment(state: dict) -> dict:
     """
@@ -51,7 +48,7 @@ def process_shipment(state: dict) -> dict:
     input_text = messages[-1]
 
     # Prompt aus Cache oder LangSmith holen
-    prompt_template = get_cached_prompt("shipmentbot_shipment")
+    prompt_template = load_prompt("shipmentbot_shipment")
     
     if prompt_template is None:
         return {

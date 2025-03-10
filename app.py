@@ -6,8 +6,8 @@ import os
 from langsmith import Client
 from langchain.callbacks.tracers.langchain import wait_for_all_tracers
 
-# Import nur des Shipment-Extraktors
-from nodes.shipment_extractor import process_precise as process_shipment
+# Import des Shipment-Extraktors
+from nodes.shipment_extractor import process_shipment
 
 # Laden der Umgebungsvariablen
 load_dotenv()
@@ -25,6 +25,7 @@ os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGSMITH_PROJECT", "Shipmentbot")
 class AgentState(TypedDict):
     messages: Sequence[str]
     extracted_data: Dict[str, Any] | None
+    message: str | None
 
 def create_workflow():
     """Erstellt einen einfachen Workflow-Graphen mit nur dem Shipment-Extraktor"""
@@ -41,13 +42,13 @@ def create_workflow():
     compiled_workflow = workflow.compile()
     
     # Visualisiere den Workflow
-    try:
-        png_data = compiled_workflow.get_graph().draw_mermaid_png()
-        with open("workflow_graph.png", "wb") as f:
-            f.write(png_data)
-        print("Workflow-Diagramm wurde als 'workflow_graph.png' gespeichert.")
-    except Exception as e:
-        print(f"Visualisierung konnte nicht erstellt werden: {e}")
+    # try:
+    #     png_data = compiled_workflow.get_graph().draw_mermaid_png()
+    #     with open("workflow_graph.png", "wb") as f:
+    #         f.write(png_data)
+    #     print("Workflow-Diagramm wurde als 'workflow_graph.png' gespeichert.")
+    # except Exception as e:
+    #     print(f"Visualisierung konnte nicht erstellt werden: {e}")
     
     return compiled_workflow
 
@@ -67,7 +68,8 @@ def main():
             with st.spinner("Verarbeite Sendungsdaten..."):
                 response = chain.invoke({
                     "messages": [user_input],
-                    "extracted_data": None
+                    "extracted_data": None,
+                    "message": None
                 })
                 
                 # Warten auf Abschluss aller Traces
@@ -80,6 +82,11 @@ def main():
                 st.json(response["extracted_data"])
             else:
                 st.error("Keine Sendungsdaten konnten extrahiert werden.")
+            
+            # Nachricht vom LLM anzeigen, falls vorhanden
+            if response["message"] and response["message"].strip():
+                st.info("Nachricht vom System:")
+                st.markdown(response["message"])
                     
             # LangSmith Link anzeigen
             if os.getenv("LANGSMITH_TRACING") == "true":

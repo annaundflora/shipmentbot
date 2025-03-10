@@ -42,7 +42,7 @@ def get_cached_prompt(prompt_name):
                 return None
     return _prompt_cache[prompt_name]
 
-def process_precise(state: dict) -> dict:
+def process_shipment(state: dict) -> dict:
     """
     Führt eine präzise Extraktion der Sendungsdaten durch.
     Verwendet das Pydantic-Modell für strukturierte Ausgabe.
@@ -89,12 +89,17 @@ def process_precise(state: dict) -> dict:
         # Führe die Chain aus - das Ergebnis ist bereits eine Shipment-Instanz
         result = chain.invoke({"input": input_text})
         
+        # Extrahiere die Nachricht aus dem Ergebnis
+        message = result.message if hasattr(result, "message") else None
+        
         # Konvertiere zu Dictionary für Weiterverarbeitung
         return {
-            "extracted_data": result.model_dump()
+            "extracted_data": result.model_dump(),
+            "message": message
         }
     except Exception as e:
         print(f"Fehler bei der strukturierten Extraktion: {e}")
         return {
-            "extracted_data": None
+            "extracted_data": None,
+            "message": f"Fehler bei der Verarbeitung: {str(e)}"
         } 

@@ -36,4 +36,7 @@ class Shipment(BaseModel):
     items: Optional[List[ShipmentItem]] = Field(default_factory=list, description="List of items in the shipment")
     
     # Additional notes about the shipment
-    shipment_notes: Optional[str] = Field(None, description="Only very specific notes about the shipment and goods, which are not covered by the other fields.") 
+    shipment_notes: Optional[str] = Field(None, description="Only very specific notes about the shipment and goods, which are not covered by the other fields.")
+    
+    # Message to the user
+    message: Optional[str] = Field(None, description="Message to the user, e.g. about missing data or other issues.") 

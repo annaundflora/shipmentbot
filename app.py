@@ -1,56 +1,21 @@
+"""
+Streamlit UI für den Shipmentbot.
+
+Diese Datei definiert die Streamlit-Benutzeroberfläche für den Shipmentbot.
+"""
 import streamlit as st
 from dotenv import load_dotenv
-from langgraph.graph import StateGraph, END, START
-from typing import TypedDict, Annotated, Sequence, List, Dict, Any
 import os
-from langsmith import Client
 from langchain.callbacks.tracers.langchain import wait_for_all_tracers
 
-# Import des Shipment-Extraktors
-from nodes.shipment_extractor import process_shipment
+# Import des Shipment-Graphen
+from graph.shipment_graph import create_shipment_graph
 
 # Laden der Umgebungsvariablen
 load_dotenv()
 
-# LangSmith Client initialisieren
-client = Client(
-    api_key=os.getenv("LANGSMITH_API_KEY"),
-    api_url=os.getenv("LANGSMITH_ENDPOINT")
-)
-
 # LangSmith Projekt setzen
 os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGSMITH_PROJECT", "Shipmentbot")
-
-# Vereinfachte Definition des Zustandstyps
-class AgentState(TypedDict):
-    messages: Sequence[str]
-    extracted_data: Dict[str, Any] | None
-    message: str | None
-
-def create_workflow():
-    """Erstellt einen einfachen Workflow-Graphen mit nur dem Shipment-Extraktor"""
-    workflow = StateGraph(AgentState)
-    
-    # Nur den Shipment-Extraktor hinzufügen
-    workflow.add_node("shipment_extractor", process_shipment)
-    
-    # Einfache Kanten definieren
-    workflow.add_edge(START, "shipment_extractor")
-    workflow.add_edge("shipment_extractor", END)
-    
-    # Workflow kompilieren und visualisieren
-    compiled_workflow = workflow.compile()
-    
-    # Visualisiere den Workflow
-    # try:
-    #     png_data = compiled_workflow.get_graph().draw_mermaid_png()
-    #     with open("workflow_graph.png", "wb") as f:
-    #         f.write(png_data)
-    #     print("Workflow-Diagramm wurde als 'workflow_graph.png' gespeichert.")
-    # except Exception as e:
-    #     print(f"Visualisierung konnte nicht erstellt werden: {e}")
-    
-    return compiled_workflow
 
 # Streamlit UI
 def main():
@@ -59,10 +24,14 @@ def main():
     # Eingabefeld
     user_input = st.text_area("Bitte geben Sie Ihre Sendungsdaten ein:", height=200)
 
+    # Persistenz-Option (Checkbox)
+    use_persistence = st.checkbox("Persistenz aktivieren", value=False, 
+                                 help="Aktiviert die Persistenz des Graphen zwischen verschiedenen Anfragen.")
+
     if st.button("Verarbeiten"):
         if user_input:
-            # Workflow ausführen mit LangSmith Tracing
-            chain = create_workflow()
+            # Workflow erstellen mit optionaler Persistenz
+            chain = create_shipment_graph(with_checkpointer=use_persistence)
             
             # Ausführen mit Tracing
             with st.spinner("Verarbeite Sendungsdaten..."):

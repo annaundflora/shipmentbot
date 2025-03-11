@@ -1,9 +1,14 @@
-streamlit
-python-dotenv
-langgraph
-openai==1.0.0
-langchain
-langchain-core
-langchain-community
-langchain-anthropic
-langsmith
+# Grundlegende Abhängigkeiten
+streamlit==1.38.0
+python-dotenv==1.0.1
+pydantic==2.6.3
+
+# LangGraph
+langgraph==0.1.25
+
+# LangChain
+langchain==0.1.13
+langchain-core==0.1.31
+langchain-community==0.0.29
+langchain-anthropic==0.1.7
+langsmith==0.1.5

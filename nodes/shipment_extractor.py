@@ -16,6 +16,7 @@ client = Client(
     api_url=os.getenv("LANGSMITH_ENDPOINT")
 )
 
+
 def load_prompt(prompt_name):
     """
     Lädt einen Prompt von LangSmith oder aus einer lokalen Datei.

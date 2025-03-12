@@ -1,20 +1,23 @@
 # Shipmentbot
 
-Ein LangGraph-basierter Bot zur Extraktion von Sendungsdaten aus Texteingaben.
+A LangGraph-based bot for extracting shipment data from text inputs.
 
-## Projektstruktur
+## Project Structure
 
 ```
 shipmentbot/
-├── graph/                         # LangGraph-Implementierung
+├── graph/                         # LangGraph implementation
 │   ├── __init__.py
-│   ├── shipment_graph.py          # Haupt-Graph-Definition
-│   └── nodes/                     # Knoten für den Graph
+│   ├── shipment_graph.py          # Main graph definition
+│   ├── config.py                  # Central configuration
+│   ├── models/                    # Data models
+│   │   ├── __init__.py
+│   │   └── shipment_models.py     # Pydantic models for structured data
+│   └── nodes/                     # Nodes for the graph
 │       ├── __init__.py
-│       ├── shipment_extractor.py  # Extraktor für Sendungsdaten
-│       └── shipment_models.py     # Pydantic-Modelle für strukturierte Daten
-├── app.py                         # Streamlit UI für lokale Entwicklung
-├── langgraph_main.py              # Einstiegspunkt für LangGraph Platform
+│       └── shipment_extractor.py  # Extractor for shipment data
+├── app.py                         # Streamlit UI for local development
+├── langgraph_main.py              # Entry point for LangGraph Platform
 ├── requirements.txt
 └── README.md
 ```
@@ -22,60 +25,78 @@ shipmentbot/
 ## Installation
 
 ```bash
-# Repository klonen
+# Clone repository
 git clone https://github.com/yourusername/shipmentbot.git
 cd shipmentbot
 
-# Virtuelle Umgebung erstellen und aktivieren
+# Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate  # Unter Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Abhängigkeiten installieren
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-## Umgebungsvariablen
+## Environment Variables
 
-Erstelle eine `.env`-Datei mit den folgenden Variablen:
+Create a `.env` file with the following variables:
 
 ```
 ANTHROPIC_API_KEY=sk-...
 LANGSMITH_API_KEY=lsv2_...
-LANGSMITH_ENDPOINT=https://eu.smith.langchain.com  # oder deine eigene Endpoint
+LANGSMITH_ENDPOINT=https://eu.smith.langchain.com  # or your own endpoint
 LANGSMITH_PROJECT=Shipmentbot
-LANGSMITH_TRACING=true  # für Entwicklung, optional
+LANGSMITH_TRACING=true  # for development, optional
 ```
 
-## Lokale Ausführung mit Streamlit
+## Local Execution with Streamlit
 
 ```bash
 streamlit run app.py
 ```
 
-## Deployment auf LangGraph Platform
+## Deployment on LangGraph Platform
 
-1. Stelle sicher, dass `langgraph_main.py` die Variable `app` exportiert.
-2. Setze die erforderlichen Umgebungsvariablen in der LangGraph Platform.
-3. Deploye den Code gemäß der LangGraph Platform-Dokumentation.
+1. Ensure that `langgraph_main.py` exports the `app` variable.
+2. Set the required environment variables in the LangGraph Platform.
+3. Deploy the code according to the LangGraph Platform documentation.
 
-## Verwendung mit LangGraph Platform API
+## Using the LangGraph Platform API
 
-Nach dem Deployment kann der Graph über die LangGraph Platform API verwendet werden:
+After deployment, the graph can be used via the LangGraph Platform API:
 
 ```python
 import requests
 
-# API-Endpunkt
+# API endpoint
 url = "https://api.langgraph.com/your-app-id"
 
-# Anfrage senden
+# Send request
 response = requests.post(url, json={
-    "messages": ["Ich habe 5 Paletten mit je 100kg Gewicht..."],
+    "messages": ["I have 5 pallets with 100kg weight each..."],
     "extracted_data": None,
     "message": None
 })
 
-# Ergebnis verarbeiten
+# Process result
 result = response.json()
 print(result["extracted_data"])
-``` 
+```
+
+## Features
+
+- **Structured Data Extraction**: Converts unstructured text about shipments into structured data
+- **Validation**: Automatically validates and completes missing fields
+- **Error Handling**: Comprehensive error handling with informative messages
+- **International Support**: Full English language support in code and documentation
+- **Retry Logic**: Built-in retry mechanism for network issues
+
+## Testing
+
+Run the tests with:
+
+```bash
+python -m tests.run_tests
+```
+
+This will execute all tests and generate a coverage report in `tests/reports/coverage/`. 

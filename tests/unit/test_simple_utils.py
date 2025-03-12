@@ -1,7 +1,7 @@
 """
-Unit-Tests für den Shipment-Extractor.
+Unit tests for the Shipment Extractor.
 
-Diese Tests überprüfen die grundlegende Funktionalität des shipment_extractor-Moduls.
+These tests verify the basic functionality of the shipment_extractor module.
 """
 import pytest
 from unittest.mock import patch, MagicMock
@@ -17,7 +17,7 @@ from graph.config import ERROR_MESSAGES
 
 
 def test_process_shipment_prompt_not_found():
-    """Test, dass process_shipment einen Fehler zurückgibt, wenn der Prompt nicht gefunden wird."""
+    """Test that process_shipment returns an error when the prompt is not found."""
     with patch('graph.nodes.shipment_extractor.load_prompt', return_value=None):
         state = {"messages": ["Test message"]}
         result = process_shipment(state)
@@ -27,57 +27,57 @@ def test_process_shipment_prompt_not_found():
 
 
 def test_process_shipment_tracing_enabled():
-    """Test, dass LangSmith Tracing aktiviert wird, wenn LANGSMITH_TRACING True ist."""
+    """Test that LangSmith tracing is enabled when LANGSMITH_TRACING is True."""
     with patch('graph.nodes.shipment_extractor.LANGSMITH_TRACING', True), \
          patch('graph.nodes.shipment_extractor.load_prompt', return_value=MagicMock()), \
          patch('graph.nodes.shipment_extractor.LangChainTracer') as mock_tracer, \
          patch('graph.nodes.shipment_extractor.ChatAnthropic') as mock_llm, \
          patch('graph.nodes.shipment_extractor.PromptTemplate.from_template', return_value=MagicMock()):
             
-        # Konfiguriere einen Mock für model_dump
+        # Configure a mock for model_dump
         structured_llm_mock = MagicMock()
         mock_llm.return_value.with_structured_output.return_value = structured_llm_mock
         
-        # Konfiguriere einen Mock für die chain
+        # Configure a mock for the chain
         chain_mock = MagicMock()
         chain_mock.invoke.return_value = MagicMock(model_dump=lambda: {"items": [], "shipment_notes": ""})
         
-        # Konfiguriere den | Operator
+        # Configure the | operator
         mock_or_return = MagicMock()
         mock_or_return.__or__ = MagicMock(return_value=chain_mock)
         
         with patch('graph.nodes.shipment_extractor.PromptTemplate', return_value=mock_or_return):
-            # Mock nicht tiefer gehen
+            # Don't go deeper with mocking
             try:
                 state = {"messages": ["Test message"]}
                 process_shipment(state)
-                # Überprüfe lediglich, ob der Tracer aufgerufen wurde
+                # Only check if the tracer was called
                 mock_tracer.assert_called_once()
             except Exception:
-                # Dieser Test soll nur überprüfen, ob der Tracer konfiguriert wird
-                # Die Details der Implementierung sind nicht wichtig
+                # This test is only meant to check if the tracer is configured
+                # The implementation details are not important
                 pass
 
 
 def test_create_error_response():
-    """Test, dass create_error_response korrekte Fehlermeldungen erzeugt."""
-    # Test ohne Details
+    """Test that create_error_response generates correct error messages."""
+    # Test without details
     result = create_error_response("prompt_not_found")
     assert result["extracted_data"] is None
     assert result["message"] == ERROR_MESSAGES["prompt_not_found"]
     
-    # Test mit Details
-    result = create_error_response("format_error", "Test-Fehler")
+    # Test with details
+    result = create_error_response("format_error", "Test error")
     assert result["extracted_data"] is None
-    assert result["message"] == ERROR_MESSAGES["format_error"].format("Test-Fehler")
+    assert result["message"] == ERROR_MESSAGES["format_error"].format("Test error")
 
 
 def test_extract_shipment_data_successful():
-    """Test, dass extract_shipment_data die Daten und Nachricht korrekt extrahiert."""
-    # Mock für Chain erstellen
+    """Test that extract_shipment_data correctly extracts data and message."""
+    # Create mock for Chain
     chain_mock = MagicMock()
     
-    # Erstelle einen Mock mit Daten
+    # Create a mock with data
     mock_result = MagicMock()
     extracted_data = {
         "items": [
@@ -95,26 +95,26 @@ def test_extract_shipment_data_successful():
         "shipment_notes": "Test notes"
     }
     mock_result.model_dump.return_value = extracted_data
-    mock_result.message = "LLM hat folgende Daten extrahiert und validiert"
+    mock_result.message = "LLM has extracted and validated the following data"
     
-    # Patch für invoke_chain_with_retry
+    # Patch for invoke_chain_with_retry
     with patch('graph.nodes.shipment_extractor.invoke_chain_with_retry', return_value=mock_result):
         result = extract_shipment_data(chain_mock, "Test-Input")
         
-        # Überprüfungen
+        # Verifications
         assert result["extracted_data"] == extracted_data
-        assert result["message"] == "LLM hat folgende Daten extrahiert und validiert"
+        assert result["message"] == "LLM has extracted and validated the following data"
 
 
 def test_extract_shipment_data_with_timeout():
-    """Test, dass extract_shipment_data einen Fehler zurückgibt, wenn ein Timeout auftritt."""
-    # Mock für Chain erstellen
+    """Test that extract_shipment_data returns an error when a timeout occurs."""
+    # Create mock for Chain
     chain_mock = MagicMock()
     
-    # Patch für invoke_chain_with_retry, der einen Timeout simuliert
+    # Patch for invoke_chain_with_retry that simulates a timeout
     with patch('graph.nodes.shipment_extractor.invoke_chain_with_retry', side_effect=TimeoutError("Test-Timeout")):
         result = extract_shipment_data(chain_mock, "Test-Input")
         
-        # Überprüfungen
+        # Verifications
         assert result["extracted_data"] is None
-        assert "Zeitüberschreitung" in result["message"] 
+        assert "timeout" in result["message"].lower() 

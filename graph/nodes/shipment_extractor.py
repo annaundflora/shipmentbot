@@ -1,7 +1,7 @@
 """
 Shipment extractor node for LangGraph.
 
-Dieser Knoten extrahiert strukturierte Sendungsdaten aus Texteingaben mit Claude.
+This node extracts structured shipment data from text inputs using Claude.
 """
 from langchain_core.prompts import PromptTemplate
 from langchain_anthropic import ChatAnthropic
@@ -14,10 +14,10 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from typing import Dict, Any, List, Optional, Union, Callable
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
-# Importiere die Modelle aus dem models-Verzeichnis
+# Import models from the models directory
 from graph.models.shipment_models import Shipment, ShipmentItem, LoadCarrierType
 
-# Importiere die zentrale Konfiguration
+# Import central configuration
 from graph.config import (
     LLM_MODEL, 
     LLM_TEMPERATURE, 
@@ -31,7 +31,7 @@ from graph.config import (
     ERROR_MESSAGES
 )
 
-# Initialisiere den LangSmith Client
+# Initialize the LangSmith Client
 client = Client(
     api_key=os.getenv("LANGSMITH_API_KEY", LANGSMITH_API_KEY),
     api_url=os.getenv("LANGSMITH_ENDPOINT", LANGSMITH_ENDPOINT)
@@ -40,50 +40,50 @@ client = Client(
 
 def load_prompt(prompt_name: str) -> Optional[PromptTemplate]:
     """
-    Lädt einen Prompt von LangSmith oder aus einer lokalen Datei.
-    Das Caching ist deaktiviert, es wird immer ein frischer Prompt geladen.
+    Loads a prompt from LangSmith or from a local file.
+    Caching is disabled, a fresh prompt is always loaded.
     
     Args:
-        prompt_name: Name des Prompts in LangSmith
+        prompt_name: Name of the prompt in LangSmith
         
     Returns:
-        Ein PromptTemplate oder None, wenn der Prompt nicht geladen werden konnte
+        A PromptTemplate or None if the prompt could not be loaded
     """
     try:
-        print(f"Lade Prompt '{prompt_name}' von LangSmith...")
+        print(f"Loading prompt '{prompt_name}' from LangSmith...")
         prompt = client.pull_prompt(prompt_name, include_model=False)
-        print(f"Prompt '{prompt_name}' erfolgreich geladen.")
+        print(f"Prompt '{prompt_name}' successfully loaded.")
         return prompt
     except Exception as e:
-        print(f"Fehler beim Laden des Prompts '{prompt_name}' von LangSmith: {e}")
-        # Fallback: Lokale Datei laden
+        print(f"Error loading prompt '{prompt_name}' from LangSmith: {e}")
+        # Fallback: Load local file
         try:
             with open(f"instructions/instr_{prompt_name.split('_')[-1]}.md", "r", encoding="utf-8") as f:
                 prompt_text = f.read()
                 prompt = PromptTemplate.from_template(prompt_text)
-                print(f"Fallback: Prompt '{prompt_name}' aus lokaler Datei geladen.")
+                print(f"Fallback: Prompt '{prompt_name}' loaded from local file.")
                 return prompt
         except Exception as e2:
-            print(f"Auch Fallback fehlgeschlagen für '{prompt_name}': {e2}")
+            print(f"Fallback also failed for '{prompt_name}': {e2}")
             return None
 
 
 def create_error_response(error_type: str, details: str = "") -> Dict[str, Any]:
     """
-    Erstellt eine einheitliche Fehlerantwort.
+    Creates a standardized error response.
     
     Args:
-        error_type: Art des Fehlers, referenziert einen Schlüssel in ERROR_MESSAGES
-        details: Zusätzliche Details zum Fehler für Formatstrings
+        error_type: Type of error, references a key in ERROR_MESSAGES
+        details: Additional details about the error for format strings
         
     Returns:
-        Ein Dictionary mit extracted_data=None und einer Fehlermeldung
+        A dictionary with extracted_data=None and an error message
     """
     error_message = ERROR_MESSAGES[error_type]
     if details and "{}" in error_message:
         error_message = error_message.format(details)
     
-    print(f"Fehler: {error_type} - {details}")
+    print(f"Error: {error_type} - {details}")
     return {
         "extracted_data": None,
         "message": error_message
@@ -92,15 +92,15 @@ def create_error_response(error_type: str, details: str = "") -> Dict[str, Any]:
 
 def create_extraction_chain(prompt_template):
     """
-    Erstellt die Extraction Chain mit LLM und Prompt.
+    Creates the extraction chain with LLM and prompt.
     
     Args:
-        prompt_template: Das PromptTemplate für die Chain
+        prompt_template: The PromptTemplate for the chain
         
     Returns:
-        Eine Chain für die strukturierte Extraktion
+        A chain for structured extraction
     """
-    # LangSmith Tracing einrichten
+    # Set up LangSmith tracing
     callbacks = []
     if LANGSMITH_TRACING:
         callbacks.append(LangChainTracer(
@@ -108,11 +108,11 @@ def create_extraction_chain(prompt_template):
             tags=["shipment_extractor"]
         ))
     
-    # Falls prompt_template kein PromptTemplate ist, konvertieren
+    # If prompt_template is not a PromptTemplate, convert it
     if not isinstance(prompt_template, PromptTemplate):
         prompt_template = PromptTemplate.from_template(str(prompt_template))
     
-    # LLM mit Pydantic-Modell für strukturierte Ausgabe
+    # LLM with Pydantic model for structured output
     llm = ChatAnthropic(
         model=LLM_MODEL,
         temperature=LLM_TEMPERATURE,
@@ -121,10 +121,10 @@ def create_extraction_chain(prompt_template):
         callbacks=callbacks
     )
     
-    # LLM mit strukturierter Ausgabe konfigurieren
+    # Configure LLM with structured output
     structured_llm = llm.with_structured_output(Shipment)
     
-    # Chain zusammenbauen mit Pipeline-Syntax
+    # Build chain with pipeline syntax
     return prompt_template | structured_llm
 
 
@@ -135,85 +135,85 @@ def create_extraction_chain(prompt_template):
 )
 def invoke_chain_with_retry(chain, input_data: Dict[str, str]) -> Any:
     """
-    Führt den Chain-Aufruf mit Retry-Logik aus.
+    Executes the chain call with retry logic.
     
     Args:
-        chain: Die zu verwendende Chain
-        input_data: Die Eingabedaten für die Chain
+        chain: The chain to use
+        input_data: The input data for the chain
         
     Returns:
-        Das Ergebnis der Chain-Ausführung
+        The result of the chain execution
         
     Raises:
-        Verschiedene Exceptions basierend auf der Chain-Ausführung
+        Various exceptions based on the chain execution
     """
     return chain.invoke(input_data)
 
 
 def extract_shipment_data(chain, input_text: str) -> Dict[str, Any]:
     """
-    Führt die eigentliche Extraktion durch und behandelt Fehler.
+    Performs the actual extraction and handles errors.
     
     Args:
-        chain: Die zu verwendende Chain
-        input_text: Der zu extrahierende Text
+        chain: The chain to use
+        input_text: The text to extract from
         
     Returns:
-        Ein Dictionary mit den extrahierten Daten oder Fehlermeldungen
+        A dictionary with extracted data or error messages
     """
     try:
-        # Führe die Chain aus mit Retries für Netzwerkprobleme
+        # Execute the chain with retries for network issues
         result = invoke_chain_with_retry(chain, {"input": input_text})
         
-        # Extrahiere die Nachricht aus dem Ergebnis
+        # Extract the message from the result
         message = result.message if hasattr(result, "message") else None
         
-        # Konvertiere zu Dictionary für Weiterverarbeitung
+        # Convert to dictionary for further processing
         extracted_data = result.model_dump()
         
-        # Erfolgreiche Extraktion - wir überlassen die Validierung dem LLM
-        # und übernehmen die Nachricht direkt vom LLM
+        # Successful extraction - we leave validation to the LLM
+        # and take the message directly from the LLM
         return {
             "extracted_data": extracted_data,
-            "message": message or "Extraktion erfolgreich."
+            "message": message or "Extraction successful."
         }
     except ValueError as e:
         return create_error_response("format_error", str(e))
     except TypeError as e:
         return create_error_response("format_error", str(e))
     except KeyError as e:
-        return create_error_response("format_error", f"Fehlender Wert für {e}")
+        return create_error_response("format_error", f"Missing value for {e}")
     except TimeoutError:
-        return create_error_response("extraction_error", "Zeitüberschreitung bei der Anfrage")
+        return create_error_response("extraction_error", "Request timeout")
     except ConnectionError:
-        return create_error_response("extraction_error", "Verbindungsfehler beim API-Aufruf")
+        return create_error_response("extraction_error", "Connection error during API call")
     except Exception as e:
         return create_error_response("unknown_error", str(e))
 
 
 def process_shipment(state: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Führt eine präzise Extraktion der Sendungsdaten durch.
-    Verwendet das Pydantic-Modell für strukturierte Ausgabe.
+    Performs a precise extraction of shipment data.
+    Uses the Pydantic model for structured output.
     
     Args:
-        state: Der aktuelle Zustand mit messages, extracted_data und message
+        state: The current state with messages, extracted_data and message
         
     Returns:
-        Ein aktualisierter Zustand mit extrahierten Daten und ggf. Fehlermeldungen
+        An updated state with extracted data and/or error messages
     """
     try:
         messages = state["messages"]
         input_text = messages[-1]
         
-        # Prompt aus LangSmith oder lokaler Datei laden
+        # Load prompt from LangSmith or local file
         prompt_template = load_prompt(DEFAULT_PROMPT_NAME)
         if prompt_template is None:
             return create_error_response("prompt_not_found")
         
-        # Chain erstellen und ausführen
+        # Create and execute chain
         chain = create_extraction_chain(prompt_template)
         return extract_shipment_data(chain, input_text)
     except Exception as e:
-        # Allgemeiner Fallback für unerwartete Fehler
+        # General fallback for unexpected errors
         return create_error_response("unknown_error", str(e)) 

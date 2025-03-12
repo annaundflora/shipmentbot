@@ -1,39 +1,39 @@
 """
 Shipment Graph Definition.
 
-Diese Datei definiert den LangGraph für die Extraktion von Sendungsdaten.
+This file defines the LangGraph for the extraction of shipment data.
 """
 from langgraph.graph import StateGraph, END, START
 from typing import TypedDict, Optional, List, Dict, Any, Union, Callable
 from langgraph.checkpoint.memory import MemorySaver
 
-# Import des Shipment-Extraktors
+# Import of the Shipment Extractor
 from graph.nodes.shipment_extractor import process_shipment
 
-# Definition des Zustandstyps mit präziseren Typannotationen
+# Definition of the state type with precise type annotations
 class ShipmentState(TypedDict):
-    messages: List[str]  # Präziser als Sequence
-    extracted_data: Optional[Dict[str, Any]]  # Explizit Optional
-    message: Optional[str]  # Explizit Optional
+    messages: List[str]  # More precise than Sequence
+    extracted_data: Optional[Dict[str, Any]]  # Explicitly Optional
+    message: Optional[str]  # Explicitly Optional
 
 def validate_state(state: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Validiert und ergänzt fehlende Felder im State.
+    Validates and completes missing fields in the state.
     
     Args:
-        state: Der zu validierende Zustand
+        state: The state to validate
         
     Returns:
-        Ein validierter Zustand mit allen erforderlichen Feldern
+        A validated state with all required fields
     """
-    # Erstellen einer Kopie des Zustands, um das Original nicht zu verändern
+    # Create a copy of the state to avoid modifying the original
     validated_state = state.copy()
     
-    # Stelle sicher, dass messages ein List[str] ist
+    # Ensure that messages is a List[str]
     if "messages" not in validated_state or not isinstance(validated_state["messages"], list):
         validated_state["messages"] = []
     
-    # Stelle sicher, dass extracted_data und message existieren
+    # Ensure that extracted_data and message exist
     if "extracted_data" not in validated_state:
         validated_state["extracted_data"] = None
     if "message" not in validated_state:
@@ -43,41 +43,41 @@ def validate_state(state: Dict[str, Any]) -> Dict[str, Any]:
 
 def create_shipment_graph(with_checkpointer: bool = False) -> Callable:
     """
-    Erstellt einen LangGraph für die Extraktion von Sendungsdaten.
+    Creates a LangGraph for the extraction of shipment data.
     
     Args:
-        with_checkpointer: Ob ein Memory-Checkpointer verwendet werden soll für Persistenz
+        with_checkpointer: Whether to use a memory checkpointer for persistence
         
     Returns:
-        Ein kompilierter LangGraph, der für die Extraktion von Sendungsdaten verwendet werden kann
+        A compiled LangGraph that can be used for shipment data extraction
     """
-    # Erstelle den Graph mit dem definierten Zustandstyp
+    # Create the graph with the defined state type
     graph = StateGraph(ShipmentState)
     
-    # Füge die Validierungsfunktion als separaten Knoten hinzu
+    # Add the validation function as a separate node
     graph.add_node("validate", validate_state)
     
-    # Füge den Shipment-Extraktor als Knoten hinzu
+    # Add the shipment extractor as a node
     graph.add_node("shipment_extractor", process_shipment)
     
-    # Definiere die Kanten - mit Validierung als ersten Schritt
+    # Define the edges - with validation as the first step
     graph.add_edge(START, "validate")
     graph.add_edge("validate", "shipment_extractor")
     graph.add_edge("shipment_extractor", END)
     
-    # Erstelle einen Checkpointer für Persistenz, falls gewünscht
+    # Create a checkpointer for persistence, if desired
     checkpointer = MemorySaver() if with_checkpointer else None
     
-    # Kompiliere den Graph
+    # Compile the graph
     compiled_graph = graph.compile(checkpointer=checkpointer)
     
-    # Versuche, den Graph zu visualisieren
+    # Try to visualize the graph
     try:
         png_data = compiled_graph.get_graph().draw_mermaid_png()
         with open("workflow_graph.png", "wb") as f:
             f.write(png_data)
-        print("Workflow-Diagramm wurde als 'workflow_graph.png' gespeichert.")
+        print("Workflow diagram has been saved as 'workflow_graph.png'.")
     except Exception as e:
-        print(f"Visualisierung konnte nicht erstellt werden: {e}")
+        print(f"Visualization could not be created: {e}")
     
     return compiled_graph 

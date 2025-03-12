@@ -1,33 +1,33 @@
 """
-Zentrale Konfiguration für Shipmentbot.
+Central configuration for Shipmentbot.
 
-Diese Datei enthält alle Konfigurationsparameter und lädt Umgebungsvariablen.
+This file contains all configuration parameters and loads environment variables.
 """
 import os
 from dotenv import load_dotenv
 
-# Lade Umgebungsvariablen
+# Load environment variables
 load_dotenv()
 
-# LLM-Konfiguration
+# LLM configuration
 LLM_MODEL = os.getenv("LLM_MODEL", "claude-3-7-sonnet-20250219")
 LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0"))
 LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "4096"))
 LLM_TIMEOUT = int(os.getenv("LLM_TIMEOUT", "10"))
 
-# LangSmith-Konfiguration
+# LangSmith configuration
 LANGSMITH_PROJECT = os.getenv("LANGSMITH_PROJECT", "Shipmentbot")
 LANGSMITH_TRACING = os.getenv("LANGSMITH_TRACING", "false").lower() == "true"
 LANGSMITH_API_KEY = os.getenv("LANGSMITH_API_KEY", "")
 LANGSMITH_ENDPOINT = os.getenv("LANGSMITH_ENDPOINT", "https://eu.smith.langchain.com")
 
-# Prompt-Konfiguration
+# Prompt configuration
 DEFAULT_PROMPT_NAME = "shipmentbot_shipment"
 
-# Fehlermeldungen
+# Error messages
 ERROR_MESSAGES = {
-    "prompt_not_found": "Fehler: Konnte den Prompt nicht laden.",
-    "format_error": "Fehler im Datenformat: {}",
-    "extraction_error": "Fehler bei der Extraktion: {}",
-    "unknown_error": "Unerwarteter Fehler: {}"
+    "prompt_not_found": "Error: Could not load the prompt.",
+    "format_error": "Error in data format: {}",
+    "extraction_error": "Error during extraction: {}",
+    "unknown_error": "Unexpected error: {}"
 } 

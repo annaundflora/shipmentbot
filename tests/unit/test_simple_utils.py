@@ -6,7 +6,13 @@ Diese Tests überprüfen die grundlegende Funktionalität des shipment_extractor
 import pytest
 from unittest.mock import patch, MagicMock
 
-from graph.nodes.shipment_extractor import process_shipment
+from graph.nodes.shipment_extractor import (
+    process_shipment, 
+    create_error_response,
+    extract_shipment_data,
+    invoke_chain_with_retry
+)
+from graph.models.shipment_models import Shipment, ShipmentItem, LoadCarrierType
 from graph.config import ERROR_MESSAGES
 
 
@@ -50,4 +56,86 @@ def test_process_shipment_tracing_enabled():
             except Exception:
                 # Dieser Test soll nur überprüfen, ob der Tracer konfiguriert wird
                 # Die Details der Implementierung sind nicht wichtig
-                pass 
+                pass
+
+
+def test_create_error_response():
+    """Test, dass create_error_response korrekte Fehlermeldungen erzeugt."""
+    # Test ohne Details
+    result = create_error_response("prompt_not_found")
+    assert result["extracted_data"] is None
+    assert result["message"] == ERROR_MESSAGES["prompt_not_found"]
+    
+    # Test mit Details
+    result = create_error_response("format_error", "Test-Fehler")
+    assert result["extracted_data"] is None
+    assert result["message"] == ERROR_MESSAGES["format_error"].format("Test-Fehler")
+
+
+def test_extract_shipment_data_with_empty_items():
+    """Test, dass extract_shipment_data eine Warnung zurückgibt, wenn keine Items gefunden wurden."""
+    # Mock für Chain erstellen
+    chain_mock = MagicMock()
+    
+    # Erstelle einen Mock mit leerer Items-Liste
+    mock_result = MagicMock()
+    mock_result.model_dump.return_value = {"items": [], "shipment_notes": ""}
+    mock_result.message = "Erfolgreiche Extraktion"
+    
+    # Patch für invoke_chain_with_retry
+    with patch('graph.nodes.shipment_extractor.invoke_chain_with_retry', return_value=mock_result):
+        result = extract_shipment_data(chain_mock, "Test-Input")
+        
+        # Überprüfungen
+        assert result["extracted_data"] is not None
+        assert "items" in result["extracted_data"]
+        assert len(result["extracted_data"]["items"]) == 0
+        assert result["message"] == "Warnung: Keine Sendungspositionen gefunden."
+
+
+def test_extract_shipment_data_with_invalid_dimensions():
+    """Test, dass extract_shipment_data eine Warnung zurückgibt, wenn ungültige Abmessungen gefunden wurden."""
+    # Mock für Chain erstellen
+    chain_mock = MagicMock()
+    
+    # Erstelle einen Mock mit ungültigen Abmessungen
+    mock_result = MagicMock()
+    mock_result.model_dump.return_value = {
+        "items": [
+            {
+                "load_carrier": 1,
+                "name": "Testpaket",
+                "quantity": 3,
+                "length": 0,  # Ungültige Länge
+                "width": 80,
+                "height": 100,
+                "weight": 50,
+                "stackable": True
+            }
+        ],
+        "shipment_notes": "Test notes"
+    }
+    mock_result.message = "Erfolgreiche Extraktion"
+    
+    # Patch für invoke_chain_with_retry
+    with patch('graph.nodes.shipment_extractor.invoke_chain_with_retry', return_value=mock_result):
+        result = extract_shipment_data(chain_mock, "Test-Input")
+        
+        # Überprüfungen
+        assert result["extracted_data"] is not None
+        assert "items" in result["extracted_data"]
+        assert result["message"] == "Warnung: Einige Positionen haben ungültige Abmessungen."
+
+
+def test_extract_shipment_data_with_timeout():
+    """Test, dass extract_shipment_data einen Fehler zurückgibt, wenn ein Timeout auftritt."""
+    # Mock für Chain erstellen
+    chain_mock = MagicMock()
+    
+    # Patch für invoke_chain_with_retry, der einen Timeout simuliert
+    with patch('graph.nodes.shipment_extractor.invoke_chain_with_retry', side_effect=TimeoutError("Test-Timeout")):
+        result = extract_shipment_data(chain_mock, "Test-Input")
+        
+        # Überprüfungen
+        assert result["extracted_data"] is None
+        assert "Zeitüberschreitung" in result["message"] 

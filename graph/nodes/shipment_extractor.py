@@ -11,7 +11,8 @@ from langchain_core.tracers import LangChainTracer
 import os
 from langsmith import Client
 from langchain_core.messages import HumanMessage, SystemMessage
-from typing import Dict, Any, List, Optional, Union
+from typing import Dict, Any, List, Optional, Union, Callable
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 # Importiere die Modelle aus dem models-Verzeichnis
 from graph.models.shipment_models import Shipment, ShipmentItem, LoadCarrierType
@@ -66,29 +67,39 @@ def load_prompt(prompt_name: str) -> Optional[PromptTemplate]:
             print(f"Auch Fallback fehlgeschlagen für '{prompt_name}': {e2}")
             return None
 
-def process_shipment(state: Dict[str, Any]) -> Dict[str, Any]:
+
+def create_error_response(error_type: str, details: str = "") -> Dict[str, Any]:
     """
-    Führt eine präzise Extraktion der Sendungsdaten durch.
-    Verwendet das Pydantic-Modell für strukturierte Ausgabe.
+    Erstellt eine einheitliche Fehlerantwort.
     
     Args:
-        state: Der aktuelle Zustand mit messages, extracted_data und message
+        error_type: Art des Fehlers, referenziert einen Schlüssel in ERROR_MESSAGES
+        details: Zusätzliche Details zum Fehler für Formatstrings
         
     Returns:
-        Ein aktualisierter Zustand mit extrahierten Daten und ggf. Fehlermeldungen
+        Ein Dictionary mit extracted_data=None und einer Fehlermeldung
     """
-    messages = state["messages"]
-    input_text = messages[-1]
+    error_message = ERROR_MESSAGES[error_type]
+    if details and "{}" in error_message:
+        error_message = error_message.format(details)
+    
+    print(f"Fehler: {error_type} - {details}")
+    return {
+        "extracted_data": None,
+        "message": error_message
+    }
 
-    # Prompt aus LangSmith oder lokaler Datei laden
-    prompt_template = load_prompt(DEFAULT_PROMPT_NAME)
+
+def create_extraction_chain(prompt_template):
+    """
+    Erstellt die Extraction Chain mit LLM und Prompt.
     
-    if prompt_template is None:
-        return {
-            "extracted_data": None,
-            "message": ERROR_MESSAGES["prompt_not_found"]
-        }
-    
+    Args:
+        prompt_template: Das PromptTemplate für die Chain
+        
+    Returns:
+        Eine Chain für die strukturierte Extraktion
+    """
     # LangSmith Tracing einrichten
     callbacks = []
     if LANGSMITH_TRACING:
@@ -97,7 +108,7 @@ def process_shipment(state: Dict[str, Any]) -> Dict[str, Any]:
             tags=["shipment_extractor"]
         ))
     
-    # Erstelle PromptTemplate, falls es noch keines ist
+    # Falls prompt_template kein PromptTemplate ist, konvertieren
     if not isinstance(prompt_template, PromptTemplate):
         prompt_template = PromptTemplate.from_template(str(prompt_template))
     
@@ -114,45 +125,109 @@ def process_shipment(state: Dict[str, Any]) -> Dict[str, Any]:
     structured_llm = llm.with_structured_output(Shipment)
     
     # Chain zusammenbauen mit Pipeline-Syntax
-    chain = prompt_template | structured_llm
+    return prompt_template | structured_llm
+
+
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=2, max=10),
+    retry=retry_if_exception_type((TimeoutError, ConnectionError))
+)
+def invoke_chain_with_retry(chain, input_data: Dict[str, str]) -> Any:
+    """
+    Führt den Chain-Aufruf mit Retry-Logik aus.
     
+    Args:
+        chain: Die zu verwendende Chain
+        input_data: Die Eingabedaten für die Chain
+        
+    Returns:
+        Das Ergebnis der Chain-Ausführung
+        
+    Raises:
+        Verschiedene Exceptions basierend auf der Chain-Ausführung
+    """
+    return chain.invoke(input_data)
+
+
+def extract_shipment_data(chain, input_text: str) -> Dict[str, Any]:
+    """
+    Führt die eigentliche Extraktion durch und behandelt Fehler.
+    
+    Args:
+        chain: Die zu verwendende Chain
+        input_text: Der zu extrahierende Text
+        
+    Returns:
+        Ein Dictionary mit den extrahierten Daten oder Fehlermeldungen
+    """
     try:
-        # Führe die Chain aus - das Ergebnis ist bereits eine Shipment-Instanz
-        result = chain.invoke({"input": input_text})
+        # Führe die Chain aus mit Retries für Netzwerkprobleme
+        result = invoke_chain_with_retry(chain, {"input": input_text})
         
         # Extrahiere die Nachricht aus dem Ergebnis
         message = result.message if hasattr(result, "message") else None
         
         # Konvertiere zu Dictionary für Weiterverarbeitung
+        extracted_data = result.model_dump()
+        
+        # Zusätzliche Validierung der extrahierten Daten
+        if not extracted_data.get("items"):
+            return {
+                "extracted_data": extracted_data,
+                "message": "Warnung: Keine Sendungspositionen gefunden."
+            }
+        
+        # Formatierungsprüfung für jede Position
+        for item in extracted_data.get("items", []):
+            if item.get("length", 0) <= 0 or item.get("width", 0) <= 0 or item.get("height", 0) <= 0:
+                return {
+                    "extracted_data": extracted_data,
+                    "message": "Warnung: Einige Positionen haben ungültige Abmessungen."
+                }
+        
+        # Erfolgreiche Extraktion
         return {
-            "extracted_data": result.model_dump(),
-            "message": message
+            "extracted_data": extracted_data,
+            "message": message or "Extraktion erfolgreich."
         }
     except ValueError as e:
-        # Fehler bei der Strukturierung/Validierung der Daten
-        print(f"Format-/Validierungsfehler: {e}")
-        return {
-            "extracted_data": None,
-            "message": ERROR_MESSAGES["format_error"].format(str(e))
-        }
+        return create_error_response("format_error", str(e))
     except TypeError as e:
-        # Typfehler, z.B. wenn das LLM unerwartete Werte zurückgibt
-        print(f"Typfehler: {e}")
-        return {
-            "extracted_data": None,
-            "message": ERROR_MESSAGES["format_error"].format(str(e))
-        }
+        return create_error_response("format_error", str(e))
     except KeyError as e:
-        # Fehlende Schlüssel im Dictionary
-        print(f"Fehlender Schlüssel: {e}")
-        return {
-            "extracted_data": None,
-            "message": ERROR_MESSAGES["format_error"].format(f"Fehlender Wert für {e}")
-        }
+        return create_error_response("format_error", f"Fehlender Wert für {e}")
+    except TimeoutError:
+        return create_error_response("extraction_error", "Zeitüberschreitung bei der Anfrage")
+    except ConnectionError:
+        return create_error_response("extraction_error", "Verbindungsfehler beim API-Aufruf")
     except Exception as e:
-        # Allgemeiner Fallback für alle anderen Fehler
-        print(f"Unerwarteter Fehler bei der strukturierten Extraktion: {e}")
-        return {
-            "extracted_data": None,
-            "message": ERROR_MESSAGES["unknown_error"].format(str(e))
-        } 
+        return create_error_response("unknown_error", str(e))
+
+
+def process_shipment(state: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Führt eine präzise Extraktion der Sendungsdaten durch.
+    Verwendet das Pydantic-Modell für strukturierte Ausgabe.
+    
+    Args:
+        state: Der aktuelle Zustand mit messages, extracted_data und message
+        
+    Returns:
+        Ein aktualisierter Zustand mit extrahierten Daten und ggf. Fehlermeldungen
+    """
+    try:
+        messages = state["messages"]
+        input_text = messages[-1]
+        
+        # Prompt aus LangSmith oder lokaler Datei laden
+        prompt_template = load_prompt(DEFAULT_PROMPT_NAME)
+        if prompt_template is None:
+            return create_error_response("prompt_not_found")
+        
+        # Chain erstellen und ausführen
+        chain = create_extraction_chain(prompt_template)
+        return extract_shipment_data(chain, input_text)
+    except Exception as e:
+        # Allgemeiner Fallback für unerwartete Fehler
+        return create_error_response("unknown_error", str(e)) 

@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="9" skipped="0" tests="18" time="19.553" timestamp="2025-03-12T12:58:24.968608+01:00" hostname="Air-von-Clemens.fritz.box"><testcase classname="tests.e2e.test_app" name="test_app_ui_elements" time="6.750"><failure message="AssertionError: Expected 'checkbox' to have been called once. Called 2 times.&#10;Calls: [call('Persistenz aktivieren', value=False, help='Aktiviert die Persistenz des Graphen zwischen verschiedenen Anfragen.'),&#10; call('Debug-Informationen anzeigen')].&#10;&#10;pytest introspection follows:&#10;&#10;Args:&#10;assert ('Debug-Infor...en anzeigen',) == ()&#10;  &#10;  Left contains one more item: #x1B[0m#x1B[33m'#x1B[39;49;00m#x1B[33mDebug-Informationen anzeigen#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m#x1B[90m#x1B[39;49;00m&#10;  &#10;  Full diff:&#10;  #x1B[0m#x1B[91m- ()#x1B[39;49;00m#x1B[90m#x1B[39;49;00m&#10;  #x1B[92m+ (#x1B[39;49;00m#x1B[90m#x1B[39;49;00m&#10;  #x1B[92m+     'Debug-Informationen anzeigen',#x1B[39;49;00m#x1B[90m#x1B[39;49;00m&#10;  #x1B[92m+ )#x1B[39;49;00m#x1B[90m#x1B[39;49;00m">self = &lt;MagicMock name='checkbox' id='4654577184'&gt;
+
+    def assert_called_once(self):
+        """assert that the mock was called only once.
+        """
+        if not self.call_count == 1:
+            msg = ("Expected '%s' to have been called once. Called %s times.%s"
+                   % (self._mock_name or 'mock',
+                      self.call_count,
+                      self._calls_repr()))
+&gt;           raise AssertionError(msg)
+E           AssertionError: Expected 'checkbox' to have been called once. Called 2 times.
+E           Calls: [call('Persistenz aktivieren', value=False, help='Aktiviert die Persistenz des Graphen zwischen verschiedenen Anfragen.'),
+E            call('Debug-Informationen anzeigen')].
+
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:956: AssertionError
+
+During handling of the above exception, another exception occurred:
+
+mock_streamlit = {'button': &lt;MagicMock name='button' id='4654577520'&gt;, 'checkbox': &lt;MagicMock name='checkbox' id='4654577184'&gt;, 'error': &lt;MagicMock name='error' id='4654579200'&gt;, 'json': &lt;MagicMock name='json' id='4654578864'&gt;, ...}
+
+    def test_app_ui_elements(mock_streamlit):
+        """
+        Test, ob die UI-Elemente korrekt erstellt werden.
+    
+        Dieser Test importiert die App-Datei und überprüft, ob die UI-Elemente
+        wie erwartet erstellt werden.
+        """
+        # Füge das Hauptverzeichnis zum Pfad hinzu, um app.py zu importieren
+        sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+    
+        # Importiere die App
+        import app
+    
+        # Rufe die Hauptfunktion auf
+        app.main()
+    
+        # Überprüfe, ob die UI-Elemente erstellt wurden
+        mock_streamlit['title'].assert_called_once()
+        mock_streamlit['text_area'].assert_called_once()
+&gt;       mock_streamlit['checkbox'].assert_called_once()
+E       AssertionError: Expected 'checkbox' to have been called once. Called 2 times.
+E       Calls: [call('Persistenz aktivieren', value=False, help='Aktiviert die Persistenz des Graphen zwischen verschiedenen Anfragen.'),
+E        call('Debug-Informationen anzeigen')].
+E       
+E       pytest introspection follows:
+E       
+E       Args:
+E       assert ('Debug-Infor...en anzeigen',) == ()
+E         
+E         Left contains one more item: #x1B[0m#x1B[33m'#x1B[39;49;00m#x1B[33mDebug-Informationen anzeigen#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+E         
+E         Full diff:
+E         #x1B[0m#x1B[91m- ()#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+E         #x1B[92m+ (#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+E         #x1B[92m+     'Debug-Informationen anzeigen',#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+E         #x1B[92m+ )#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+
+tests/e2e/test_app.py:117: AssertionError</failure></testcase><testcase classname="tests.e2e.test_app" name="test_app_workflow" time="5.398"><failure message="AssertionError: Expected 'invoke' to have been called once. Called 0 times.">self = &lt;MagicMock name='create_shipment_graph().invoke' id='4669295312'&gt;
+
+    def assert_called_once(self):
+        """assert that the mock was called only once.
+        """
+        if not self.call_count == 1:
+            msg = ("Expected '%s' to have been called once. Called %s times.%s"
+                   % (self._mock_name or 'mock',
+                      self.call_count,
+                      self._calls_repr()))
+&gt;           raise AssertionError(msg)
+E           AssertionError: Expected 'invoke' to have been called once. Called 0 times.
+
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:956: AssertionError
+
+During handling of the above exception, another exception occurred:
+
+mock_streamlit = {'button': &lt;MagicMock name='button' id='4659215872'&gt;, 'checkbox': &lt;MagicMock name='checkbox' id='4659215536'&gt;, 'error': &lt;MagicMock name='error' id='4669293968'&gt;, 'json': &lt;MagicMock name='json' id='4669293632'&gt;, ...}
+mock_graph = &lt;MagicMock name='create_shipment_graph()' id='4669294976'&gt;
+
+    def test_app_workflow(mock_streamlit, mock_graph):
+        """
+        Test des gesamten App-Workflows.
+    
+        Dieser Test überprüft, ob der Workflow der App korrekt funktioniert,
+        einschließlich der Verarbeitung der Benutzereingabe und der Anzeige der Ergebnisse.
+        """
+        # Füge das Hauptverzeichnis zum Pfad hinzu, um app.py zu importieren
+        sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+    
+        # Importiere die App
+        import app
+    
+        # Ignoriere LangSmith-Tracing
+        with patch('langchain.callbacks.tracers.langchain.wait_for_all_tracers'):
+            # Rufe die Hauptfunktion auf
+            app.main()
+    
+            # Überprüfe, ob der Graph aufgerufen wurde
+&gt;           mock_graph.invoke.assert_called_once()
+E           AssertionError: Expected 'invoke' to have been called once. Called 0 times.
+
+tests/e2e/test_app.py:140: AssertionError</failure></testcase><testcase classname="tests.e2e.test_app" name="test_app_error_handling" time="5.168"><failure message="AssertionError: Expected 'error' to have been called.">self = &lt;MagicMock name='error' id='4669301024'&gt;
+
+    def assert_called(self):
+        """assert that the mock was called at least once
+        """
+        if self.call_count == 0:
+            msg = ("Expected '%s' to have been called." %
+                   (self._mock_name or 'mock'))
+&gt;           raise AssertionError(msg)
+E           AssertionError: Expected 'error' to have been called.
+
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:946: AssertionError
+
+During handling of the above exception, another exception occurred:
+
+mock_streamlit = {'button': &lt;MagicMock name='button' id='4669299344'&gt;, 'checkbox': &lt;MagicMock name='checkbox' id='4669299008'&gt;, 'error': &lt;MagicMock name='error' id='4669301024'&gt;, 'json': &lt;MagicMock name='json' id='4669300688'&gt;, ...}
+
+    def test_app_error_handling(mock_streamlit):
+        """
+        Test der Fehlerbehandlung in der App.
+    
+        Dieser Test überprüft, ob Fehler in der App korrekt behandelt werden.
+        """
+        # Mock für create_shipment_graph, der eine Exception wirft
+        with patch('graph.shipment_graph.create_shipment_graph') as mock_create_graph:
+            # Konfiguriere den Mock, um eine Exception zu werfen
+            mock_create_graph.side_effect = Exception("Test-Fehler")
+    
+            # Füge das Hauptverzeichnis zum Pfad hinzu, um app.py zu importieren
+            sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+    
+            # Importiere die App
+            import app
+    
+            # Rufe die Hauptfunktion auf - sollte den Fehler abfangen
+            app.main()
+    
+            # Überprüfe, ob eine Fehlermeldung angezeigt wurde
+&gt;           mock_streamlit['error'].assert_called()
+E           AssertionError: Expected 'error' to have been called.
+
+tests/e2e/test_app.py:169: AssertionError</failure></testcase><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_basic_workflow" time="0.001"><failure message="AttributeError: module 'graph.shipment_graph' has no attribute 'compiled_graph'">mock_process_shipment = &lt;MagicMock name='process_shipment' id='4659214528'&gt;
+
+    def test_shipment_graph_basic_workflow(mock_process_shipment):
+        """
+        Test für den grundlegenden Workflow des Shipment-Graphen.
+    
+        Dieser Test überprüft, ob der Graph korrekt kompiliert wird und
+        ob die Validierung und Extraktion korrekt durchgeführt werden.
+        """
+        # Erstelle den Graph für Tests
+&gt;       with patch('graph.shipment_graph.compiled_graph.get_graph') as mock_get_graph:
+
+tests/integration/test_shipment_graph.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:1479: in __enter__
+    self.target = self.getter()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'graph.shipment_graph.compiled_graph'
+
+    def resolve_name(name):
+        """
+        Resolve a name to an object.
+    
+        It is expected that `name` will be a string in one of the following
+        formats, where W is shorthand for a valid Python identifier and dot stands
+        for a literal period in these pseudo-regexes:
+    
+        W(.W)*
+        W(.W)*:(W(.W)*)?
+    
+        The first form is intended for backward compatibility only. It assumes that
+        some part of the dotted name is a package, and the rest is an object
+        somewhere within that package, possibly nested inside other objects.
+        Because the place where the package stops and the object hierarchy starts
+        can't be inferred by inspection, repeated attempts to import must be done
+        with this form.
+    
+        In the second form, the caller makes the division point clear through the
+        provision of a single colon: the dotted name to the left of the colon is a
+        package to be imported, and the dotted name to the right is the object
+        hierarchy within that package. Only one import is needed in this form. If
+        it ends with the colon, then a module object is returned.
+    
+        The function will return an object (which might be a module), or raise one
+        of the following exceptions:
+    
+        ValueError - if `name` isn't in a recognised format
+        ImportError - if an import failed when it shouldn't have
+        AttributeError - if a failure occurred when traversing the object hierarchy
+                         within the imported package to get to the desired object.
+        """
+        global _NAME_PATTERN
+        if _NAME_PATTERN is None:
+            # Lazy import to speedup Python startup time
+            import re
+            dotted_words = r'(?!\d)(\w+)(\.(?!\d)(\w+))*'
+            _NAME_PATTERN = re.compile(f'^(?P&lt;pkg&gt;{dotted_words})'
+                                       f'(?P&lt;cln&gt;:(?P&lt;obj&gt;{dotted_words})?)?$',
+                                       re.UNICODE)
+    
+        m = _NAME_PATTERN.match(name)
+        if not m:
+            raise ValueError(f'invalid format: {name!r}')
+        gd = m.groupdict()
+        if gd.get('cln'):
+            # there is a colon - a one-step import is all that's needed
+            mod = importlib.import_module(gd['pkg'])
+            parts = gd.get('obj')
+            parts = parts.split('.') if parts else []
+        else:
+            # no colon - have to iterate to find the package boundary
+            parts = name.split('.')
+            modname = parts.pop(0)
+            # first part *must* be a module/package.
+            mod = importlib.import_module(modname)
+            while parts:
+                p = parts[0]
+                s = f'{modname}.{p}'
+                try:
+                    mod = importlib.import_module(s)
+                    parts.pop(0)
+                    modname = s
+                except ImportError:
+                    break
+        # if we reach this point, mod is the module, already imported, and
+        # parts is the list of parts in the object hierarchy to be traversed, or
+        # an empty list if just the module is wanted.
+        result = mod
+        for p in parts:
+&gt;           result = getattr(result, p)
+E           AttributeError: module 'graph.shipment_graph' has no attribute 'compiled_graph'
+
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pkgutil.py:528: AttributeError</failure></testcase><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_validation" time="0.000"><failure message="AttributeError: module 'graph.shipment_graph' has no attribute 'compiled_graph'">def test_shipment_graph_validation():
+        """
+        Test zur Überprüfung der State-Validierung im Graph.
+    
+        Überprüft, ob der Graph einen unvollständigen State korrekt validiert
+        und fehlende Felder hinzufügt.
+        """
+        # Erstelle den Graph für Tests
+&gt;       with patch('graph.shipment_graph.compiled_graph.get_graph') as mock_get_graph, \
+             patch('graph.nodes.shipment_extractor.process_shipment') as mock_process:
+
+tests/integration/test_shipment_graph.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:1479: in __enter__
+    self.target = self.getter()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'graph.shipment_graph.compiled_graph'
+
+    def resolve_name(name):
+        """
+        Resolve a name to an object.
+    
+        It is expected that `name` will be a string in one of the following
+        formats, where W is shorthand for a valid Python identifier and dot stands
+        for a literal period in these pseudo-regexes:
+    
+        W(.W)*
+        W(.W)*:(W(.W)*)?
+    
+        The first form is intended for backward compatibility only. It assumes that
+        some part of the dotted name is a package, and the rest is an object
+        somewhere within that package, possibly nested inside other objects.
+        Because the place where the package stops and the object hierarchy starts
+        can't be inferred by inspection, repeated attempts to import must be done
+        with this form.
+    
+        In the second form, the caller makes the division point clear through the
+        provision of a single colon: the dotted name to the left of the colon is a
+        package to be imported, and the dotted name to the right is the object
+        hierarchy within that package. Only one import is needed in this form. If
+        it ends with the colon, then a module object is returned.
+    
+        The function will return an object (which might be a module), or raise one
+        of the following exceptions:
+    
+        ValueError - if `name` isn't in a recognised format
+        ImportError - if an import failed when it shouldn't have
+        AttributeError - if a failure occurred when traversing the object hierarchy
+                         within the imported package to get to the desired object.
+        """
+        global _NAME_PATTERN
+        if _NAME_PATTERN is None:
+            # Lazy import to speedup Python startup time
+            import re
+            dotted_words = r'(?!\d)(\w+)(\.(?!\d)(\w+))*'
+            _NAME_PATTERN = re.compile(f'^(?P&lt;pkg&gt;{dotted_words})'
+                                       f'(?P&lt;cln&gt;:(?P&lt;obj&gt;{dotted_words})?)?$',
+                                       re.UNICODE)
+    
+        m = _NAME_PATTERN.match(name)
+        if not m:
+            raise ValueError(f'invalid format: {name!r}')
+        gd = m.groupdict()
+        if gd.get('cln'):
+            # there is a colon - a one-step import is all that's needed
+            mod = importlib.import_module(gd['pkg'])
+            parts = gd.get('obj')
+            parts = parts.split('.') if parts else []
+        else:
+            # no colon - have to iterate to find the package boundary
+            parts = name.split('.')
+            modname = parts.pop(0)
+            # first part *must* be a module/package.
+            mod = importlib.import_module(modname)
+            while parts:
+                p = parts[0]
+                s = f'{modname}.{p}'
+                try:
+                    mod = importlib.import_module(s)
+                    parts.pop(0)
+                    modname = s
+                except ImportError:
+                    break
+        # if we reach this point, mod is the module, already imported, and
+        # parts is the list of parts in the object hierarchy to be traversed, or
+        # an empty list if just the module is wanted.
+        result = mod
+        for p in parts:
+&gt;           result = getattr(result, p)
+E           AttributeError: module 'graph.shipment_graph' has no attribute 'compiled_graph'
+
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pkgutil.py:528: AttributeError</failure></testcase><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_error_handling" time="0.000"><failure message="AttributeError: module 'graph.shipment_graph' has no attribute 'compiled_graph'">def test_shipment_graph_error_handling():
+        """
+        Test zur Überprüfung der Fehlerbehandlung im Graph.
+    
+        Überprüft, ob der Graph Fehler in der Extraktionsfunktion korrekt behandelt.
+        """
+        # Erstelle den Graph für Tests
+&gt;       with patch('graph.shipment_graph.compiled_graph.get_graph') as mock_get_graph, \
+             patch('graph.nodes.shipment_extractor.process_shipment') as mock_process:
+
+tests/integration/test_shipment_graph.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:1479: in __enter__
+    self.target = self.getter()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'graph.shipment_graph.compiled_graph'
+
+    def resolve_name(name):
+        """
+        Resolve a name to an object.
+    
+        It is expected that `name` will be a string in one of the following
+        formats, where W is shorthand for a valid Python identifier and dot stands
+        for a literal period in these pseudo-regexes:
+    
+        W(.W)*
+        W(.W)*:(W(.W)*)?
+    
+        The first form is intended for backward compatibility only. It assumes that
+        some part of the dotted name is a package, and the rest is an object
+        somewhere within that package, possibly nested inside other objects.
+        Because the place where the package stops and the object hierarchy starts
+        can't be inferred by inspection, repeated attempts to import must be done
+        with this form.
+    
+        In the second form, the caller makes the division point clear through the
+        provision of a single colon: the dotted name to the left of the colon is a
+        package to be imported, and the dotted name to the right is the object
+        hierarchy within that package. Only one import is needed in this form. If
+        it ends with the colon, then a module object is returned.
+    
+        The function will return an object (which might be a module), or raise one
+        of the following exceptions:
+    
+        ValueError - if `name` isn't in a recognised format
+        ImportError - if an import failed when it shouldn't have
+        AttributeError - if a failure occurred when traversing the object hierarchy
+                         within the imported package to get to the desired object.
+        """
+        global _NAME_PATTERN
+        if _NAME_PATTERN is None:
+            # Lazy import to speedup Python startup time
+            import re
+            dotted_words = r'(?!\d)(\w+)(\.(?!\d)(\w+))*'
+            _NAME_PATTERN = re.compile(f'^(?P&lt;pkg&gt;{dotted_words})'
+                                       f'(?P&lt;cln&gt;:(?P&lt;obj&gt;{dotted_words})?)?$',
+                                       re.UNICODE)
+    
+        m = _NAME_PATTERN.match(name)
+        if not m:
+            raise ValueError(f'invalid format: {name!r}')
+        gd = m.groupdict()
+        if gd.get('cln'):
+            # there is a colon - a one-step import is all that's needed
+            mod = importlib.import_module(gd['pkg'])
+            parts = gd.get('obj')
+            parts = parts.split('.') if parts else []
+        else:
+            # no colon - have to iterate to find the package boundary
+            parts = name.split('.')
+            modname = parts.pop(0)
+            # first part *must* be a module/package.
+            mod = importlib.import_module(modname)
+            while parts:
+                p = parts[0]
+                s = f'{modname}.{p}'
+                try:
+                    mod = importlib.import_module(s)
+                    parts.pop(0)
+                    modname = s
+                except ImportError:
+                    break
+        # if we reach this point, mod is the module, already imported, and
+        # parts is the list of parts in the object hierarchy to be traversed, or
+        # an empty list if just the module is wanted.
+        result = mod
+        for p in parts:
+&gt;           result = getattr(result, p)
+E           AttributeError: module 'graph.shipment_graph' has no attribute 'compiled_graph'
+
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pkgutil.py:528: AttributeError</failure></testcase><testcase classname="tests.unit.test_shipment_extractor" name="test_process_shipment_success" time="0.011"><failure message="AssertionError: assert 'items' in &lt;MagicMock name='with_structured_output()().model_dump()' id='4659201760'&gt;">mock_successful_shipment = Shipment(items=[ShipmentItem(load_carrier=&lt;LoadCarrierType.PALLET: 1&gt;, name='Testpaket', quantity=3, length=120, width=80, height=100, weight=50, stackable=True)], shipment_notes='Vorsichtig behandeln', message='Extraktion erfolgreich.')
+
+    def test_process_shipment_success(mock_successful_shipment):
+        """Test für erfolgreiche Extraktion von Sendungsdaten."""
+        with patch('graph.nodes.shipment_extractor.load_prompt') as mock_load_prompt, \
+             patch('langchain_anthropic.ChatAnthropic.with_structured_output') as mock_with_structured:
+    
+            # Mock-Objekte konfigurieren
+            mock_prompt = MagicMock()
+            mock_load_prompt.return_value = mock_prompt
+    
+            mock_chain = MagicMock()
+            mock_chain.invoke.return_value = mock_successful_shipment
+    
+            mock_llm = MagicMock()
+            mock_with_structured.return_value = mock_chain
+    
+            # LLM konfigurieren (wird normalerweise in process_shipment erstellt)
+            with patch('langchain_anthropic.ChatAnthropic', return_value=mock_llm):
+                # Testaufruf
+                result = process_shipment({
+                    "messages": ["Ich benötige Transport für 3 Paletten, je 120x80x100cm, 50kg."]
+                })
+    
+                # Assertions
+                assert result["extracted_data"] is not None
+&gt;               assert "items" in result["extracted_data"]
+E               AssertionError: assert 'items' in &lt;MagicMock name='with_structured_output()().model_dump()' id='4659201760'&gt;
+
+tests/unit/test_shipment_extractor.py:68: AssertionError</failure></testcase><testcase classname="tests.unit.test_shipment_extractor" name="test_process_shipment_empty" time="0.008"><failure message="AssertionError: assert 'items' in &lt;MagicMock name='with_structured_output()().model_dump()' id='4658411376'&gt;">mock_empty_shipment = Shipment(items=[], shipment_notes=None, message='Keine Sendungsdaten erkannt.')
+
+    def test_process_shipment_empty(mock_empty_shipment):
+        """Test für den Fall, dass keine Sendungsdaten erkannt werden."""
+        with patch('graph.nodes.shipment_extractor.load_prompt') as mock_load_prompt, \
+             patch('langchain_anthropic.ChatAnthropic.with_structured_output') as mock_with_structured:
+    
+            # Mock-Objekte konfigurieren
+            mock_prompt = MagicMock()
+            mock_load_prompt.return_value = mock_prompt
+    
+            mock_chain = MagicMock()
+            mock_chain.invoke.return_value = mock_empty_shipment
+    
+            mock_llm = MagicMock()
+            mock_with_structured.return_value = mock_chain
+    
+            # LLM konfigurieren (wird normalerweise in process_shipment erstellt)
+            with patch('langchain_anthropic.ChatAnthropic', return_value=mock_llm):
+                # Testaufruf
+                result = process_shipment({
+                    "messages": ["Hallo, guten Tag!"]
+                })
+    
+                # Assertions
+                assert result["extracted_data"] is not None
+&gt;               assert "items" in result["extracted_data"]
+E               AssertionError: assert 'items' in &lt;MagicMock name='with_structured_output()().model_dump()' id='4658411376'&gt;
+
+tests/unit/test_shipment_extractor.py:103: AssertionError</failure></testcase><testcase classname="tests.unit.test_shipment_extractor" name="test_process_shipment_prompt_not_found" time="0.001" /><testcase classname="tests.unit.test_shipment_extractor" name="test_process_shipment_exception" time="0.015"><failure message="AssertionError: assert &lt;MagicMock name='with_structured_output()().model_dump()' id='4657609904'&gt; is None">def test_process_shipment_exception():
+        """Test für den Fall, dass eine Exception auftritt."""
+        with patch('graph.nodes.shipment_extractor.load_prompt') as mock_load_prompt, \
+             patch('langchain_anthropic.ChatAnthropic.with_structured_output') as mock_with_structured:
+    
+            # Mock-Objekte konfigurieren
+            mock_prompt = MagicMock()
+            mock_load_prompt.return_value = mock_prompt
+    
+            mock_chain = MagicMock()
+            mock_chain.invoke.side_effect = ValueError("Test-Fehler")
+    
+            mock_llm = MagicMock()
+            mock_with_structured.return_value = mock_chain
+    
+            # LLM konfigurieren (wird normalerweise in process_shipment erstellt)
+            with patch('langchain_anthropic.ChatAnthropic', return_value=mock_llm):
+                # Testaufruf
+                result = process_shipment({
+                    "messages": ["Test"]
+                })
+    
+                # Assertions
+&gt;               assert result["extracted_data"] is None
+E               AssertionError: assert &lt;MagicMock name='with_structured_output()().model_dump()' id='4657609904'&gt; is None
+
+tests/unit/test_shipment_extractor.py:145: AssertionError</failure></testcase><testcase classname="tests.unit.test_shipment_models" name="test_shipment_item_initialization" time="0.002" /><testcase classname="tests.unit.test_shipment_models" name="test_shipment_initialization" time="0.001" /><testcase classname="tests.unit.test_shipment_models" name="test_load_carrier_type_enum" time="0.001" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_empty" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_with_data" time="0.001" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_with_partial_data" time="0.001" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_invalid_messages" time="0.001" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_immutability" time="0.001" /></testsuite></testsuites>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title id="head-title">test_report_20250312_125823.html</title>
+      <link href="assets/style.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+    <h1 id="title">test_report_20250312_125823.html</h1>
+    <p>Report generated on 12-Mar-2025 at 12:58:44 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+        v4.1.1</p>
+    <div id="environment-header">
+      <h2>Environment</h2>
+    </div>
+    <table id="environment"></table>
+    <!-- TEMPLATES -->
+      <template id="template_environment_row">
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+    </template>
+    <template id="template_results-table__body--empty">
+      <tbody class="results-table-row">
+        <tr id="not-found-message">
+          <td colspan="4">No results found. Check the filters.</th>
+        </tr>
+    </template>
+    <template id="template_results-table__tbody">
+      <tbody class="results-table-row">
+        <tr class="collapsible">
+        </tr>
+        <tr class="extras-row">
+          <td class="extra" colspan="4">
+            <div class="extraHTML"></div>
+            <div class="media">
+              <div class="media-container">
+                  <div class="media-container__nav--left"><</div>
+                  <div class="media-container__viewport">
+                    <img src="" />
+                    <video controls>
+                      <source src="" type="video/mp4">
+                    </video>
+                  </div>
+                  <div class="media-container__nav--right">></div>
+                </div>
+                <div class="media__name"></div>
+                <div class="media__counter"></div>
+            </div>
+            <div class="logwrapper">
+              <div class="logexpander"></div>
+              <div class="log"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </template>
+    <!-- END TEMPLATES -->
+    <div class="summary">
+      <div class="summary__data">
+        <h2>Summary</h2>
+        <div class="additional-summary prefix">
+        </div>
+        <p class="run-count">18 tests took 00:00:17.</p>
+        <p class="filter">(Un)check the boxes to filter the results.</p>
+        <div class="summary__reload">
+          <div class="summary__reload__button hidden" onclick="location.reload()">
+            <div>There are still tests running. <br />Reload this page to get the latest results!</div>
+          </div>
+        </div>
+        <div class="summary__spacer"></div>
+        <div class="controls">
+          <div class="filters">
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="failed" />
+            <span class="failed">9 Failed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="passed" />
+            <span class="passed">9 Passed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="skipped" disabled/>
+            <span class="skipped">0 Skipped,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xfailed" disabled/>
+            <span class="xfailed">0 Expected failures,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xpassed" disabled/>
+            <span class="xpassed">0 Unexpected passes,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="error" disabled/>
+            <span class="error">0 Errors,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="rerun" disabled/>
+            <span class="rerun">0 Reruns</span>
+          </div>
+          <div class="collapse">
+            <button id="show_all_details">Show all details</button>&nbsp;/&nbsp;<button id="hide_all_details">Hide all details</button>
+          </div>
+        </div>
+      </div>
+      <div class="additional-summary summary">
+      </div>
+      <div class="additional-summary postfix">
+      </div>
+    </div>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable" data-column-type="result">Result</th>
+          <th class="sortable" data-column-type="testId">Test</th>
+          <th class="sortable" data-column-type="duration">Duration</th>
+          <th>Links</th>
+        </tr>
+      </thead>
+    </table>
+  </body>
+  <footer>
+    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.13.1&#34;, &#34;Platform&#34;: &#34;macOS-13.5-arm64-arm-64bit-Mach-O&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;8.3.5&#34;, &#34;pluggy&#34;: &#34;1.5.0&#34;}, &#34;Plugins&#34;: {&#34;cov&#34;: &#34;6.0.0&#34;, &#34;html&#34;: &#34;4.1.1&#34;, &#34;metadata&#34;: &#34;3.1.1&#34;, &#34;langsmith&#34;: &#34;0.3.10&#34;, &#34;anyio&#34;: &#34;3.7.1&#34;, &#34;mock&#34;: &#34;3.14.0&#34;}}, &#34;tests&#34;: {&#34;tests/e2e/test_app.py::test_app_ui_elements&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/e2e/test_app.py::test_app_ui_elements&#34;, &#34;duration&#34;: &#34;00:00:07&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/e2e/test_app.py::test_app_ui_elements&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:07&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;self = &amp;lt;MagicMock name=&amp;#x27;checkbox&amp;#x27; id=&amp;#x27;4654577184&amp;#x27;&amp;gt;\n\n    def assert_called_once(self):\n        &amp;quot;&amp;quot;&amp;quot;assert that the mock was called only once.\n        &amp;quot;&amp;quot;&amp;quot;\n        if not self.call_count == 1:\n            msg = (&amp;quot;Expected &amp;#x27;%s&amp;#x27; to have been called once. Called %s times.%s&amp;quot;\n                   % (self._mock_name or &amp;#x27;mock&amp;#x27;,\n                      self.call_count,\n                      self._calls_repr()))\n&amp;gt;           raise AssertionError(msg)\nE           AssertionError: Expected &amp;#x27;checkbox&amp;#x27; to have been called once. Called 2 times.\nE           Calls: [call(&amp;#x27;Persistenz aktivieren&amp;#x27;, value=False, help=&amp;#x27;Aktiviert die Persistenz des Graphen zwischen verschiedenen Anfragen.&amp;#x27;),\nE            call(&amp;#x27;Debug-Informationen anzeigen&amp;#x27;)].\n\n/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:956: AssertionError\n\nDuring handling of the above exception, another exception occurred:\n\nmock_streamlit = {&amp;#x27;button&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;button&amp;#x27; id=&amp;#x27;4654577520&amp;#x27;&amp;gt;, &amp;#x27;checkbox&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;checkbox&amp;#x27; id=&amp;#x27;4654577184&amp;#x27;&amp;gt;, &amp;#x27;error&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;error&amp;#x27; id=&amp;#x27;4654579200&amp;#x27;&amp;gt;, &amp;#x27;json&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;json&amp;#x27; id=&amp;#x27;4654578864&amp;#x27;&amp;gt;, ...}\n\n    def test_app_ui_elements(mock_streamlit):\n        &amp;quot;&amp;quot;&amp;quot;\n        Test, ob die UI-Elemente korrekt erstellt werden.\n    \n        Dieser Test importiert die App-Datei und \u00fcberpr\u00fcft, ob die UI-Elemente\n        wie erwartet erstellt werden.\n        &amp;quot;&amp;quot;&amp;quot;\n        # F\u00fcge das Hauptverzeichnis zum Pfad hinzu, um app.py zu importieren\n        sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), &amp;#x27;../..&amp;#x27;)))\n    \n        # Importiere die App\n        import app\n    \n        # Rufe die Hauptfunktion auf\n        app.main()\n    \n        # \u00dcberpr\u00fcfe, ob die UI-Elemente erstellt wurden\n        mock_streamlit[&amp;#x27;title&amp;#x27;].assert_called_once()\n        mock_streamlit[&amp;#x27;text_area&amp;#x27;].assert_called_once()\n&amp;gt;       mock_streamlit[&amp;#x27;checkbox&amp;#x27;].assert_called_once()\nE       AssertionError: Expected &amp;#x27;checkbox&amp;#x27; to have been called once. Called 2 times.\nE       Calls: [call(&amp;#x27;Persistenz aktivieren&amp;#x27;, value=False, help=&amp;#x27;Aktiviert die Persistenz des Graphen zwischen verschiedenen Anfragen.&amp;#x27;),\nE        call(&amp;#x27;Debug-Informationen anzeigen&amp;#x27;)].\nE       \nE       pytest introspection follows:\nE       \nE       Args:\nE       assert (&amp;#x27;Debug-Infor...en anzeigen&amp;#x27;,) == ()\nE         \nE         Left contains one more item: &amp;#x27;Debug-Informationen anzeigen&amp;#x27;\nE         \nE         Full diff:\nE         - ()\nE         + (\nE         +     &amp;#x27;Debug-Informationen anzeigen&amp;#x27;,\nE         + )\n\ntests/e2e/test_app.py:117: AssertionError\n\n----------------------------- Captured stdout call -----------------------------\nWorkflow-Diagramm wurde als &amp;#x27;workflow_graph.png&amp;#x27; gespeichert.\nLade Prompt &amp;#x27;shipmentbot_shipment&amp;#x27; von LangSmith...\nPrompt &amp;#x27;shipmentbot_shipment&amp;#x27; erfolgreich geladen.\n\n----------------------------- Captured stderr call -----------------------------\n2025-03-12 12:58:33.339 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2025-03-12 12:58:33.394 \n  Warning: to view this Streamlit app on a browser, run it with the following\n  command:\n\n    streamlit run /Users/clemens/Documents/Dev/shipmentbot/tests/run_tests.py [ARGUMENTS]\n2025-03-12 12:58:33.394 Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2025-03-12 12:58:33.395 Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2025-03-12 12:58:33.395 Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n&#34;}], &#34;tests/e2e/test_app.py::test_app_workflow&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/e2e/test_app.py::test_app_workflow&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/e2e/test_app.py::test_app_workflow&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;self = &amp;lt;MagicMock name=&amp;#x27;create_shipment_graph().invoke&amp;#x27; id=&amp;#x27;4669295312&amp;#x27;&amp;gt;\n\n    def assert_called_once(self):\n        &amp;quot;&amp;quot;&amp;quot;assert that the mock was called only once.\n        &amp;quot;&amp;quot;&amp;quot;\n        if not self.call_count == 1:\n            msg = (&amp;quot;Expected &amp;#x27;%s&amp;#x27; to have been called once. Called %s times.%s&amp;quot;\n                   % (self._mock_name or &amp;#x27;mock&amp;#x27;,\n                      self.call_count,\n                      self._calls_repr()))\n&amp;gt;           raise AssertionError(msg)\nE           AssertionError: Expected &amp;#x27;invoke&amp;#x27; to have been called once. Called 0 times.\n\n/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:956: AssertionError\n\nDuring handling of the above exception, another exception occurred:\n\nmock_streamlit = {&amp;#x27;button&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;button&amp;#x27; id=&amp;#x27;4659215872&amp;#x27;&amp;gt;, &amp;#x27;checkbox&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;checkbox&amp;#x27; id=&amp;#x27;4659215536&amp;#x27;&amp;gt;, &amp;#x27;error&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;error&amp;#x27; id=&amp;#x27;4669293968&amp;#x27;&amp;gt;, &amp;#x27;json&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;json&amp;#x27; id=&amp;#x27;4669293632&amp;#x27;&amp;gt;, ...}\nmock_graph = &amp;lt;MagicMock name=&amp;#x27;create_shipment_graph()&amp;#x27; id=&amp;#x27;4669294976&amp;#x27;&amp;gt;\n\n    def test_app_workflow(mock_streamlit, mock_graph):\n        &amp;quot;&amp;quot;&amp;quot;\n        Test des gesamten App-Workflows.\n    \n        Dieser Test \u00fcberpr\u00fcft, ob der Workflow der App korrekt funktioniert,\n        einschlie\u00dflich der Verarbeitung der Benutzereingabe und der Anzeige der Ergebnisse.\n        &amp;quot;&amp;quot;&amp;quot;\n        # F\u00fcge das Hauptverzeichnis zum Pfad hinzu, um app.py zu importieren\n        sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), &amp;#x27;../..&amp;#x27;)))\n    \n        # Importiere die App\n        import app\n    \n        # Ignoriere LangSmith-Tracing\n        with patch(&amp;#x27;langchain.callbacks.tracers.langchain.wait_for_all_tracers&amp;#x27;):\n            # Rufe die Hauptfunktion auf\n            app.main()\n    \n            # \u00dcberpr\u00fcfe, ob der Graph aufgerufen wurde\n&amp;gt;           mock_graph.invoke.assert_called_once()\nE           AssertionError: Expected &amp;#x27;invoke&amp;#x27; to have been called once. Called 0 times.\n\ntests/e2e/test_app.py:140: AssertionError\n\n----------------------------- Captured stdout call -----------------------------\nWorkflow-Diagramm wurde als &amp;#x27;workflow_graph.png&amp;#x27; gespeichert.\nLade Prompt &amp;#x27;shipmentbot_shipment&amp;#x27; von LangSmith...\nPrompt &amp;#x27;shipmentbot_shipment&amp;#x27; erfolgreich geladen.\n\n----------------------------- Captured stderr call -----------------------------\n2025-03-12 12:58:38.930 Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2025-03-12 12:58:38.930 Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2025-03-12 12:58:38.930 Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2025-03-12 12:58:38.930 Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n&#34;}], &#34;tests/e2e/test_app.py::test_app_error_handling&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/e2e/test_app.py::test_app_error_handling&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/e2e/test_app.py::test_app_error_handling&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;self = &amp;lt;MagicMock name=&amp;#x27;error&amp;#x27; id=&amp;#x27;4669301024&amp;#x27;&amp;gt;\n\n    def assert_called(self):\n        &amp;quot;&amp;quot;&amp;quot;assert that the mock was called at least once\n        &amp;quot;&amp;quot;&amp;quot;\n        if self.call_count == 0:\n            msg = (&amp;quot;Expected &amp;#x27;%s&amp;#x27; to have been called.&amp;quot; %\n                   (self._mock_name or &amp;#x27;mock&amp;#x27;))\n&amp;gt;           raise AssertionError(msg)\nE           AssertionError: Expected &amp;#x27;error&amp;#x27; to have been called.\n\n/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:946: AssertionError\n\nDuring handling of the above exception, another exception occurred:\n\nmock_streamlit = {&amp;#x27;button&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;button&amp;#x27; id=&amp;#x27;4669299344&amp;#x27;&amp;gt;, &amp;#x27;checkbox&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;checkbox&amp;#x27; id=&amp;#x27;4669299008&amp;#x27;&amp;gt;, &amp;#x27;error&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;error&amp;#x27; id=&amp;#x27;4669301024&amp;#x27;&amp;gt;, &amp;#x27;json&amp;#x27;: &amp;lt;MagicMock name=&amp;#x27;json&amp;#x27; id=&amp;#x27;4669300688&amp;#x27;&amp;gt;, ...}\n\n    def test_app_error_handling(mock_streamlit):\n        &amp;quot;&amp;quot;&amp;quot;\n        Test der Fehlerbehandlung in der App.\n    \n        Dieser Test \u00fcberpr\u00fcft, ob Fehler in der App korrekt behandelt werden.\n        &amp;quot;&amp;quot;&amp;quot;\n        # Mock f\u00fcr create_shipment_graph, der eine Exception wirft\n        with patch(&amp;#x27;graph.shipment_graph.create_shipment_graph&amp;#x27;) as mock_create_graph:\n            # Konfiguriere den Mock, um eine Exception zu werfen\n            mock_create_graph.side_effect = Exception(&amp;quot;Test-Fehler&amp;quot;)\n    \n            # F\u00fcge das Hauptverzeichnis zum Pfad hinzu, um app.py zu importieren\n            sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), &amp;#x27;../..&amp;#x27;)))\n    \n            # Importiere die App\n            import app\n    \n            # Rufe die Hauptfunktion auf - sollte den Fehler abfangen\n            app.main()\n    \n            # \u00dcberpr\u00fcfe, ob eine Fehlermeldung angezeigt wurde\n&amp;gt;           mock_streamlit[&amp;#x27;error&amp;#x27;].assert_called()\nE           AssertionError: Expected &amp;#x27;error&amp;#x27; to have been called.\n\ntests/e2e/test_app.py:169: AssertionError\n\n----------------------------- Captured stdout call -----------------------------\nWorkflow-Diagramm wurde als &amp;#x27;workflow_graph.png&amp;#x27; gespeichert.\nLade Prompt &amp;#x27;shipmentbot_shipment&amp;#x27; von LangSmith...\nPrompt &amp;#x27;shipmentbot_shipment&amp;#x27; erfolgreich geladen.\n\n----------------------------- Captured stderr call -----------------------------\n2025-03-12 12:58:44.156 Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2025-03-12 12:58:44.156 Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2025-03-12 12:58:44.156 Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2025-03-12 12:58:44.157 Thread &amp;#x27;MainThread&amp;#x27;: missing ScriptRunContext! This warning can be ignored when running in bare mode.\n&#34;}], &#34;tests/integration/test_shipment_graph.py::test_shipment_graph_basic_workflow&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/integration/test_shipment_graph.py::test_shipment_graph_basic_workflow&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/integration/test_shipment_graph.py::test_shipment_graph_basic_workflow&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;mock_process_shipment = &amp;lt;MagicMock name=&amp;#x27;process_shipment&amp;#x27; id=&amp;#x27;4659214528&amp;#x27;&amp;gt;\n\n    def test_shipment_graph_basic_workflow(mock_process_shipment):\n        &amp;quot;&amp;quot;&amp;quot;\n        Test f\u00fcr den grundlegenden Workflow des Shipment-Graphen.\n    \n        Dieser Test \u00fcberpr\u00fcft, ob der Graph korrekt kompiliert wird und\n        ob die Validierung und Extraktion korrekt durchgef\u00fchrt werden.\n        &amp;quot;&amp;quot;&amp;quot;\n        # Erstelle den Graph f\u00fcr Tests\n&amp;gt;       with patch(&amp;#x27;graph.shipment_graph.compiled_graph.get_graph&amp;#x27;) as mock_get_graph:\n\ntests/integration/test_shipment_graph.py:48: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:1479: in __enter__\n    self.target = self.getter()\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nname = &amp;#x27;graph.shipment_graph.compiled_graph&amp;#x27;\n\n    def resolve_name(name):\n        &amp;quot;&amp;quot;&amp;quot;\n        Resolve a name to an object.\n    \n        It is expected that `name` will be a string in one of the following\n        formats, where W is shorthand for a valid Python identifier and dot stands\n        for a literal period in these pseudo-regexes:\n    \n        W(.W)*\n        W(.W)*:(W(.W)*)?\n    \n        The first form is intended for backward compatibility only. It assumes that\n        some part of the dotted name is a package, and the rest is an object\n        somewhere within that package, possibly nested inside other objects.\n        Because the place where the package stops and the object hierarchy starts\n        can&amp;#x27;t be inferred by inspection, repeated attempts to import must be done\n        with this form.\n    \n        In the second form, the caller makes the division point clear through the\n        provision of a single colon: the dotted name to the left of the colon is a\n        package to be imported, and the dotted name to the right is the object\n        hierarchy within that package. Only one import is needed in this form. If\n        it ends with the colon, then a module object is returned.\n    \n        The function will return an object (which might be a module), or raise one\n        of the following exceptions:\n    \n        ValueError - if `name` isn&amp;#x27;t in a recognised format\n        ImportError - if an import failed when it shouldn&amp;#x27;t have\n        AttributeError - if a failure occurred when traversing the object hierarchy\n                         within the imported package to get to the desired object.\n        &amp;quot;&amp;quot;&amp;quot;\n        global _NAME_PATTERN\n        if _NAME_PATTERN is None:\n            # Lazy import to speedup Python startup time\n            import re\n            dotted_words = r&amp;#x27;(?!\\d)(\\w+)(\\.(?!\\d)(\\w+))*&amp;#x27;\n            _NAME_PATTERN = re.compile(f&amp;#x27;^(?P&amp;lt;pkg&amp;gt;{dotted_words})&amp;#x27;\n                                       f&amp;#x27;(?P&amp;lt;cln&amp;gt;:(?P&amp;lt;obj&amp;gt;{dotted_words})?)?$&amp;#x27;,\n                                       re.UNICODE)\n    \n        m = _NAME_PATTERN.match(name)\n        if not m:\n            raise ValueError(f&amp;#x27;invalid format: {name!r}&amp;#x27;)\n        gd = m.groupdict()\n        if gd.get(&amp;#x27;cln&amp;#x27;):\n            # there is a colon - a one-step import is all that&amp;#x27;s needed\n            mod = importlib.import_module(gd[&amp;#x27;pkg&amp;#x27;])\n            parts = gd.get(&amp;#x27;obj&amp;#x27;)\n            parts = parts.split(&amp;#x27;.&amp;#x27;) if parts else []\n        else:\n            # no colon - have to iterate to find the package boundary\n            parts = name.split(&amp;#x27;.&amp;#x27;)\n            modname = parts.pop(0)\n            # first part *must* be a module/package.\n            mod = importlib.import_module(modname)\n            while parts:\n                p = parts[0]\n                s = f&amp;#x27;{modname}.{p}&amp;#x27;\n                try:\n                    mod = importlib.import_module(s)\n                    parts.pop(0)\n                    modname = s\n                except ImportError:\n                    break\n        # if we reach this point, mod is the module, already imported, and\n        # parts is the list of parts in the object hierarchy to be traversed, or\n        # an empty list if just the module is wanted.\n        result = mod\n        for p in parts:\n&amp;gt;           result = getattr(result, p)\nE           AttributeError: module &amp;#x27;graph.shipment_graph&amp;#x27; has no attribute &amp;#x27;compiled_graph&amp;#x27;\n\n/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pkgutil.py:528: AttributeError\n&#34;}], &#34;tests/integration/test_shipment_graph.py::test_shipment_graph_validation&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/integration/test_shipment_graph.py::test_shipment_graph_validation&#34;, &#34;duration&#34;: &#34;0 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/integration/test_shipment_graph.py::test_shipment_graph_validation&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;0 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;def test_shipment_graph_validation():\n        &amp;quot;&amp;quot;&amp;quot;\n        Test zur \u00dcberpr\u00fcfung der State-Validierung im Graph.\n    \n        \u00dcberpr\u00fcft, ob der Graph einen unvollst\u00e4ndigen State korrekt validiert\n        und fehlende Felder hinzuf\u00fcgt.\n        &amp;quot;&amp;quot;&amp;quot;\n        # Erstelle den Graph f\u00fcr Tests\n&amp;gt;       with patch(&amp;#x27;graph.shipment_graph.compiled_graph.get_graph&amp;#x27;) as mock_get_graph, \\\n             patch(&amp;#x27;graph.nodes.shipment_extractor.process_shipment&amp;#x27;) as mock_process:\n\ntests/integration/test_shipment_graph.py:84: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:1479: in __enter__\n    self.target = self.getter()\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nname = &amp;#x27;graph.shipment_graph.compiled_graph&amp;#x27;\n\n    def resolve_name(name):\n        &amp;quot;&amp;quot;&amp;quot;\n        Resolve a name to an object.\n    \n        It is expected that `name` will be a string in one of the following\n        formats, where W is shorthand for a valid Python identifier and dot stands\n        for a literal period in these pseudo-regexes:\n    \n        W(.W)*\n        W(.W)*:(W(.W)*)?\n    \n        The first form is intended for backward compatibility only. It assumes that\n        some part of the dotted name is a package, and the rest is an object\n        somewhere within that package, possibly nested inside other objects.\n        Because the place where the package stops and the object hierarchy starts\n        can&amp;#x27;t be inferred by inspection, repeated attempts to import must be done\n        with this form.\n    \n        In the second form, the caller makes the division point clear through the\n        provision of a single colon: the dotted name to the left of the colon is a\n        package to be imported, and the dotted name to the right is the object\n        hierarchy within that package. Only one import is needed in this form. If\n        it ends with the colon, then a module object is returned.\n    \n        The function will return an object (which might be a module), or raise one\n        of the following exceptions:\n    \n        ValueError - if `name` isn&amp;#x27;t in a recognised format\n        ImportError - if an import failed when it shouldn&amp;#x27;t have\n        AttributeError - if a failure occurred when traversing the object hierarchy\n                         within the imported package to get to the desired object.\n        &amp;quot;&amp;quot;&amp;quot;\n        global _NAME_PATTERN\n        if _NAME_PATTERN is None:\n            # Lazy import to speedup Python startup time\n            import re\n            dotted_words = r&amp;#x27;(?!\\d)(\\w+)(\\.(?!\\d)(\\w+))*&amp;#x27;\n            _NAME_PATTERN = re.compile(f&amp;#x27;^(?P&amp;lt;pkg&amp;gt;{dotted_words})&amp;#x27;\n                                       f&amp;#x27;(?P&amp;lt;cln&amp;gt;:(?P&amp;lt;obj&amp;gt;{dotted_words})?)?$&amp;#x27;,\n                                       re.UNICODE)\n    \n        m = _NAME_PATTERN.match(name)\n        if not m:\n            raise ValueError(f&amp;#x27;invalid format: {name!r}&amp;#x27;)\n        gd = m.groupdict()\n        if gd.get(&amp;#x27;cln&amp;#x27;):\n            # there is a colon - a one-step import is all that&amp;#x27;s needed\n            mod = importlib.import_module(gd[&amp;#x27;pkg&amp;#x27;])\n            parts = gd.get(&amp;#x27;obj&amp;#x27;)\n            parts = parts.split(&amp;#x27;.&amp;#x27;) if parts else []\n        else:\n            # no colon - have to iterate to find the package boundary\n            parts = name.split(&amp;#x27;.&amp;#x27;)\n            modname = parts.pop(0)\n            # first part *must* be a module/package.\n            mod = importlib.import_module(modname)\n            while parts:\n                p = parts[0]\n                s = f&amp;#x27;{modname}.{p}&amp;#x27;\n                try:\n                    mod = importlib.import_module(s)\n                    parts.pop(0)\n                    modname = s\n                except ImportError:\n                    break\n        # if we reach this point, mod is the module, already imported, and\n        # parts is the list of parts in the object hierarchy to be traversed, or\n        # an empty list if just the module is wanted.\n        result = mod\n        for p in parts:\n&amp;gt;           result = getattr(result, p)\nE           AttributeError: module &amp;#x27;graph.shipment_graph&amp;#x27; has no attribute &amp;#x27;compiled_graph&amp;#x27;\n\n/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pkgutil.py:528: AttributeError\n&#34;}], &#34;tests/integration/test_shipment_graph.py::test_shipment_graph_error_handling&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/integration/test_shipment_graph.py::test_shipment_graph_error_handling&#34;, &#34;duration&#34;: &#34;0 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/integration/test_shipment_graph.py::test_shipment_graph_error_handling&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;0 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;def test_shipment_graph_error_handling():\n        &amp;quot;&amp;quot;&amp;quot;\n        Test zur \u00dcberpr\u00fcfung der Fehlerbehandlung im Graph.\n    \n        \u00dcberpr\u00fcft, ob der Graph Fehler in der Extraktionsfunktion korrekt behandelt.\n        &amp;quot;&amp;quot;&amp;quot;\n        # Erstelle den Graph f\u00fcr Tests\n&amp;gt;       with patch(&amp;#x27;graph.shipment_graph.compiled_graph.get_graph&amp;#x27;) as mock_get_graph, \\\n             patch(&amp;#x27;graph.nodes.shipment_extractor.process_shipment&amp;#x27;) as mock_process:\n\ntests/integration/test_shipment_graph.py:125: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:1479: in __enter__\n    self.target = self.getter()\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nname = &amp;#x27;graph.shipment_graph.compiled_graph&amp;#x27;\n\n    def resolve_name(name):\n        &amp;quot;&amp;quot;&amp;quot;\n        Resolve a name to an object.\n    \n        It is expected that `name` will be a string in one of the following\n        formats, where W is shorthand for a valid Python identifier and dot stands\n        for a literal period in these pseudo-regexes:\n    \n        W(.W)*\n        W(.W)*:(W(.W)*)?\n    \n        The first form is intended for backward compatibility only. It assumes that\n        some part of the dotted name is a package, and the rest is an object\n        somewhere within that package, possibly nested inside other objects.\n        Because the place where the package stops and the object hierarchy starts\n        can&amp;#x27;t be inferred by inspection, repeated attempts to import must be done\n        with this form.\n    \n        In the second form, the caller makes the division point clear through the\n        provision of a single colon: the dotted name to the left of the colon is a\n        package to be imported, and the dotted name to the right is the object\n        hierarchy within that package. Only one import is needed in this form. If\n        it ends with the colon, then a module object is returned.\n    \n        The function will return an object (which might be a module), or raise one\n        of the following exceptions:\n    \n        ValueError - if `name` isn&amp;#x27;t in a recognised format\n        ImportError - if an import failed when it shouldn&amp;#x27;t have\n        AttributeError - if a failure occurred when traversing the object hierarchy\n                         within the imported package to get to the desired object.\n        &amp;quot;&amp;quot;&amp;quot;\n        global _NAME_PATTERN\n        if _NAME_PATTERN is None:\n            # Lazy import to speedup Python startup time\n            import re\n            dotted_words = r&amp;#x27;(?!\\d)(\\w+)(\\.(?!\\d)(\\w+))*&amp;#x27;\n            _NAME_PATTERN = re.compile(f&amp;#x27;^(?P&amp;lt;pkg&amp;gt;{dotted_words})&amp;#x27;\n                                       f&amp;#x27;(?P&amp;lt;cln&amp;gt;:(?P&amp;lt;obj&amp;gt;{dotted_words})?)?$&amp;#x27;,\n                                       re.UNICODE)\n    \n        m = _NAME_PATTERN.match(name)\n        if not m:\n            raise ValueError(f&amp;#x27;invalid format: {name!r}&amp;#x27;)\n        gd = m.groupdict()\n        if gd.get(&amp;#x27;cln&amp;#x27;):\n            # there is a colon - a one-step import is all that&amp;#x27;s needed\n            mod = importlib.import_module(gd[&amp;#x27;pkg&amp;#x27;])\n            parts = gd.get(&amp;#x27;obj&amp;#x27;)\n            parts = parts.split(&amp;#x27;.&amp;#x27;) if parts else []\n        else:\n            # no colon - have to iterate to find the package boundary\n            parts = name.split(&amp;#x27;.&amp;#x27;)\n            modname = parts.pop(0)\n            # first part *must* be a module/package.\n            mod = importlib.import_module(modname)\n            while parts:\n                p = parts[0]\n                s = f&amp;#x27;{modname}.{p}&amp;#x27;\n                try:\n                    mod = importlib.import_module(s)\n                    parts.pop(0)\n                    modname = s\n                except ImportError:\n                    break\n        # if we reach this point, mod is the module, already imported, and\n        # parts is the list of parts in the object hierarchy to be traversed, or\n        # an empty list if just the module is wanted.\n        result = mod\n        for p in parts:\n&amp;gt;           result = getattr(result, p)\nE           AttributeError: module &amp;#x27;graph.shipment_graph&amp;#x27; has no attribute &amp;#x27;compiled_graph&amp;#x27;\n\n/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pkgutil.py:528: AttributeError\n&#34;}], &#34;tests/unit/test_shipment_extractor.py::test_process_shipment_success&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/unit/test_shipment_extractor.py::test_process_shipment_success&#34;, &#34;duration&#34;: &#34;11 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_shipment_extractor.py::test_process_shipment_success&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;11 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;mock_successful_shipment = Shipment(items=[ShipmentItem(load_carrier=&amp;lt;LoadCarrierType.PALLET: 1&amp;gt;, name=&amp;#x27;Testpaket&amp;#x27;, quantity=3, length=120, width=80, height=100, weight=50, stackable=True)], shipment_notes=&amp;#x27;Vorsichtig behandeln&amp;#x27;, message=&amp;#x27;Extraktion erfolgreich.&amp;#x27;)\n\n    def test_process_shipment_success(mock_successful_shipment):\n        &amp;quot;&amp;quot;&amp;quot;Test f\u00fcr erfolgreiche Extraktion von Sendungsdaten.&amp;quot;&amp;quot;&amp;quot;\n        with patch(&amp;#x27;graph.nodes.shipment_extractor.load_prompt&amp;#x27;) as mock_load_prompt, \\\n             patch(&amp;#x27;langchain_anthropic.ChatAnthropic.with_structured_output&amp;#x27;) as mock_with_structured:\n    \n            # Mock-Objekte konfigurieren\n            mock_prompt = MagicMock()\n            mock_load_prompt.return_value = mock_prompt\n    \n            mock_chain = MagicMock()\n            mock_chain.invoke.return_value = mock_successful_shipment\n    \n            mock_llm = MagicMock()\n            mock_with_structured.return_value = mock_chain\n    \n            # LLM konfigurieren (wird normalerweise in process_shipment erstellt)\n            with patch(&amp;#x27;langchain_anthropic.ChatAnthropic&amp;#x27;, return_value=mock_llm):\n                # Testaufruf\n                result = process_shipment({\n                    &amp;quot;messages&amp;quot;: [&amp;quot;Ich ben\u00f6tige Transport f\u00fcr 3 Paletten, je 120x80x100cm, 50kg.&amp;quot;]\n                })\n    \n                # Assertions\n                assert result[&amp;quot;extracted_data&amp;quot;] is not None\n&amp;gt;               assert &amp;quot;items&amp;quot; in result[&amp;quot;extracted_data&amp;quot;]\nE               AssertionError: assert &amp;#x27;items&amp;#x27; in &amp;lt;MagicMock name=&amp;#x27;with_structured_output()().model_dump()&amp;#x27; id=&amp;#x27;4659201760&amp;#x27;&amp;gt;\n\ntests/unit/test_shipment_extractor.py:68: AssertionError\n&#34;}], &#34;tests/unit/test_shipment_extractor.py::test_process_shipment_empty&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/unit/test_shipment_extractor.py::test_process_shipment_empty&#34;, &#34;duration&#34;: &#34;8 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_shipment_extractor.py::test_process_shipment_empty&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;8 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;mock_empty_shipment = Shipment(items=[], shipment_notes=None, message=&amp;#x27;Keine Sendungsdaten erkannt.&amp;#x27;)\n\n    def test_process_shipment_empty(mock_empty_shipment):\n        &amp;quot;&amp;quot;&amp;quot;Test f\u00fcr den Fall, dass keine Sendungsdaten erkannt werden.&amp;quot;&amp;quot;&amp;quot;\n        with patch(&amp;#x27;graph.nodes.shipment_extractor.load_prompt&amp;#x27;) as mock_load_prompt, \\\n             patch(&amp;#x27;langchain_anthropic.ChatAnthropic.with_structured_output&amp;#x27;) as mock_with_structured:\n    \n            # Mock-Objekte konfigurieren\n            mock_prompt = MagicMock()\n            mock_load_prompt.return_value = mock_prompt\n    \n            mock_chain = MagicMock()\n            mock_chain.invoke.return_value = mock_empty_shipment\n    \n            mock_llm = MagicMock()\n            mock_with_structured.return_value = mock_chain\n    \n            # LLM konfigurieren (wird normalerweise in process_shipment erstellt)\n            with patch(&amp;#x27;langchain_anthropic.ChatAnthropic&amp;#x27;, return_value=mock_llm):\n                # Testaufruf\n                result = process_shipment({\n                    &amp;quot;messages&amp;quot;: [&amp;quot;Hallo, guten Tag!&amp;quot;]\n                })\n    \n                # Assertions\n                assert result[&amp;quot;extracted_data&amp;quot;] is not None\n&amp;gt;               assert &amp;quot;items&amp;quot; in result[&amp;quot;extracted_data&amp;quot;]\nE               AssertionError: assert &amp;#x27;items&amp;#x27; in &amp;lt;MagicMock name=&amp;#x27;with_structured_output()().model_dump()&amp;#x27; id=&amp;#x27;4658411376&amp;#x27;&amp;gt;\n\ntests/unit/test_shipment_extractor.py:103: AssertionError\n&#34;}], &#34;tests/unit/test_shipment_extractor.py::test_process_shipment_prompt_not_found&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/unit/test_shipment_extractor.py::test_process_shipment_prompt_not_found&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_shipment_extractor.py::test_process_shipment_prompt_not_found&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests/unit/test_shipment_extractor.py::test_process_shipment_exception&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;tests/unit/test_shipment_extractor.py::test_process_shipment_exception&#34;, &#34;duration&#34;: &#34;15 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_shipment_extractor.py::test_process_shipment_exception&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;15 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;def test_process_shipment_exception():\n        &amp;quot;&amp;quot;&amp;quot;Test f\u00fcr den Fall, dass eine Exception auftritt.&amp;quot;&amp;quot;&amp;quot;\n        with patch(&amp;#x27;graph.nodes.shipment_extractor.load_prompt&amp;#x27;) as mock_load_prompt, \\\n             patch(&amp;#x27;langchain_anthropic.ChatAnthropic.with_structured_output&amp;#x27;) as mock_with_structured:\n    \n            # Mock-Objekte konfigurieren\n            mock_prompt = MagicMock()\n            mock_load_prompt.return_value = mock_prompt\n    \n            mock_chain = MagicMock()\n            mock_chain.invoke.side_effect = ValueError(&amp;quot;Test-Fehler&amp;quot;)\n    \n            mock_llm = MagicMock()\n            mock_with_structured.return_value = mock_chain\n    \n            # LLM konfigurieren (wird normalerweise in process_shipment erstellt)\n            with patch(&amp;#x27;langchain_anthropic.ChatAnthropic&amp;#x27;, return_value=mock_llm):\n                # Testaufruf\n                result = process_shipment({\n                    &amp;quot;messages&amp;quot;: [&amp;quot;Test&amp;quot;]\n                })\n    \n                # Assertions\n&amp;gt;               assert result[&amp;quot;extracted_data&amp;quot;] is None\nE               AssertionError: assert &amp;lt;MagicMock name=&amp;#x27;with_structured_output()().model_dump()&amp;#x27; id=&amp;#x27;4657609904&amp;#x27;&amp;gt; is None\n\ntests/unit/test_shipment_extractor.py:145: AssertionError\n&#34;}], &#34;tests/unit/test_shipment_models.py::test_shipment_item_initialization&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/unit/test_shipment_models.py::test_shipment_item_initialization&#34;, &#34;duration&#34;: &#34;2 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_shipment_models.py::test_shipment_item_initialization&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;2 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests/unit/test_shipment_models.py::test_shipment_initialization&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/unit/test_shipment_models.py::test_shipment_initialization&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_shipment_models.py::test_shipment_initialization&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests/unit/test_shipment_models.py::test_load_carrier_type_enum&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/unit/test_shipment_models.py::test_load_carrier_type_enum&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_shipment_models.py::test_load_carrier_type_enum&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests/unit/test_state_validation.py::test_validate_state_empty&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/unit/test_state_validation.py::test_validate_state_empty&#34;, &#34;duration&#34;: &#34;0 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_state_validation.py::test_validate_state_empty&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;0 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests/unit/test_state_validation.py::test_validate_state_with_data&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/unit/test_state_validation.py::test_validate_state_with_data&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_state_validation.py::test_validate_state_with_data&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests/unit/test_state_validation.py::test_validate_state_with_partial_data&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/unit/test_state_validation.py::test_validate_state_with_partial_data&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_state_validation.py::test_validate_state_with_partial_data&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests/unit/test_state_validation.py::test_validate_state_invalid_messages&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/unit/test_state_validation.py::test_validate_state_invalid_messages&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_state_validation.py::test_validate_state_invalid_messages&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests/unit/test_state_validation.py::test_validate_state_immutability&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/unit/test_state_validation.py::test_validate_state_immutability&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/unit/test_state_validation.py::test_validate_state_immutability&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}]}, &#34;renderCollapsed&#34;: [&#34;passed&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;test_report_20250312_125823.html&#34;}"></div>
+    <script>
+      (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const { getCollapsedCategory, setCollapsedIds } = require('./storage.js')
+
+class DataManager {
+    setManager(data) {
+        const collapsedCategories = [...getCollapsedCategory(data.renderCollapsed)]
+        const collapsedIds = []
+        const tests = Object.values(data.tests).flat().map((test, index) => {
+            const collapsed = collapsedCategories.includes(test.result.toLowerCase())
+            const id = `test_${index}`
+            if (collapsed) {
+                collapsedIds.push(id)
+            }
+            return {
+                ...test,
+                id,
+                collapsed,
+            }
+        })
+        const dataBlob = { ...data, tests }
+        this.data = { ...dataBlob }
+        this.renderData = { ...dataBlob }
+        setCollapsedIds(collapsedIds)
+    }
+
+    get allData() {
+        return { ...this.data }
+    }
+
+    resetRender() {
+        this.renderData = { ...this.data }
+    }
+
+    setRender(data) {
+        this.renderData.tests = [...data]
+    }
+
+    toggleCollapsedItem(id) {
+        this.renderData.tests = this.renderData.tests.map((test) =>
+            test.id === id ? { ...test, collapsed: !test.collapsed } : test,
+        )
+    }
+
+    set allCollapsed(collapsed) {
+        this.renderData = { ...this.renderData, tests: [...this.renderData.tests.map((test) => (
+            { ...test, collapsed }
+        ))] }
+    }
+
+    get testSubset() {
+        return [...this.renderData.tests]
+    }
+
+    get environment() {
+        return this.renderData.environment
+    }
+
+    get initialSort() {
+        return this.data.initialSort
+    }
+}
+
+module.exports = {
+    manager: new DataManager(),
+}
+
+},{"./storage.js":8}],2:[function(require,module,exports){
+const mediaViewer = require('./mediaviewer.js')
+const templateEnvRow = document.getElementById('template_environment_row')
+const templateResult = document.getElementById('template_results-table__tbody')
+
+function htmlToElements(html) {
+    const temp = document.createElement('template')
+    temp.innerHTML = html
+    return temp.content.childNodes
+}
+
+const find = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return elem.querySelector(selector)
+}
+
+const findAll = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return [...elem.querySelectorAll(selector)]
+}
+
+const dom = {
+    getStaticRow: (key, value) => {
+        const envRow = templateEnvRow.content.cloneNode(true)
+        const isObj = typeof value === 'object' && value !== null
+        const values = isObj ? Object.keys(value).map((k) => `${k}: ${value[k]}`) : null
+
+        const valuesElement = htmlToElements(
+            values ? `<ul>${values.map((val) => `<li>${val}</li>`).join('')}<ul>` : `<div>${value}</div>`)[0]
+        const td = findAll('td', envRow)
+        td[0].textContent = key
+        td[1].appendChild(valuesElement)
+
+        return envRow
+    },
+    getResultTBody: ({ testId, id, log, extras, resultsTableRow, tableHtml, result, collapsed }) => {
+        const resultBody = templateResult.content.cloneNode(true)
+        resultBody.querySelector('tbody').classList.add(result.toLowerCase())
+        resultBody.querySelector('tbody').id = testId
+        resultBody.querySelector('.collapsible').dataset.id = id
+
+        resultsTableRow.forEach((html) => {
+            const t = document.createElement('template')
+            t.innerHTML = html
+            resultBody.querySelector('.collapsible').appendChild(t.content)
+        })
+
+        if (log) {
+            // Wrap lines starting with "E" with span.error to color those lines red
+            const wrappedLog = log.replace(/^E.*$/gm, (match) => `<span class="error">${match}</span>`)
+            resultBody.querySelector('.log').innerHTML = wrappedLog
+        } else {
+            resultBody.querySelector('.log').remove()
+        }
+
+        if (collapsed) {
+            resultBody.querySelector('.collapsible > td')?.classList.add('collapsed')
+            resultBody.querySelector('.extras-row').classList.add('hidden')
+        } else {
+            resultBody.querySelector('.collapsible > td')?.classList.remove('collapsed')
+        }
+
+        const media = []
+        extras?.forEach(({ name, format_type, content }) => {
+            if (['image', 'video'].includes(format_type)) {
+                media.push({ path: content, name, format_type })
+            }
+
+            if (format_type === 'html') {
+                resultBody.querySelector('.extraHTML').insertAdjacentHTML('beforeend', `<div>${content}</div>`)
+            }
+        })
+        mediaViewer.setup(resultBody, media)
+
+        // Add custom html from the pytest_html_results_table_html hook
+        tableHtml?.forEach((item) => {
+            resultBody.querySelector('td[class="extra"]').insertAdjacentHTML('beforeend', item)
+        })
+
+        return resultBody
+    },
+}
+
+module.exports = {
+    dom,
+    htmlToElements,
+    find,
+    findAll,
+}
+
+},{"./mediaviewer.js":6}],3:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const storageModule = require('./storage.js')
+
+const getFilteredSubSet = (filter) =>
+    manager.allData.tests.filter(({ result }) => filter.includes(result.toLowerCase()))
+
+const doInitFilter = () => {
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+}
+
+const doFilter = (type, show) => {
+    if (show) {
+        storageModule.showCategory(type)
+    } else {
+        storageModule.hideCategory(type)
+    }
+
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+
+    const sortColumn = storageModule.getSort()
+    doSort(sortColumn, true)
+}
+
+module.exports = {
+    doFilter,
+    doInitFilter,
+}
+
+},{"./datamanager.js":1,"./sort.js":7,"./storage.js":8}],4:[function(require,module,exports){
+const { redraw, bindEvents, renderStatic } = require('./main.js')
+const { doInitFilter } = require('./filter.js')
+const { doInitSort } = require('./sort.js')
+const { manager } = require('./datamanager.js')
+const data = JSON.parse(document.getElementById('data-container').dataset.jsonblob)
+
+function init() {
+    manager.setManager(data)
+    doInitFilter()
+    doInitSort()
+    renderStatic()
+    redraw()
+    bindEvents()
+}
+
+init()
+
+},{"./datamanager.js":1,"./filter.js":3,"./main.js":5,"./sort.js":7}],5:[function(require,module,exports){
+const { dom, find, findAll } = require('./dom.js')
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const { doFilter } = require('./filter.js')
+const {
+    getVisible,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    getSortDirection,
+    possibleFilters,
+} = require('./storage.js')
+
+const removeChildren = (node) => {
+    while (node.firstChild) {
+        node.removeChild(node.firstChild)
+    }
+}
+
+const renderStatic = () => {
+    const renderEnvironmentTable = () => {
+        const environment = manager.environment
+        const rows = Object.keys(environment).map((key) => dom.getStaticRow(key, environment[key]))
+        const table = document.getElementById('environment')
+        removeChildren(table)
+        rows.forEach((row) => table.appendChild(row))
+    }
+    renderEnvironmentTable()
+}
+
+const addItemToggleListener = (elem) => {
+    elem.addEventListener('click', ({ target }) => {
+        const id = target.parentElement.dataset.id
+        manager.toggleCollapsedItem(id)
+
+        const collapsedIds = getCollapsedIds()
+        if (collapsedIds.includes(id)) {
+            const updated = collapsedIds.filter((item) => item !== id)
+            setCollapsedIds(updated)
+        } else {
+            collapsedIds.push(id)
+            setCollapsedIds(collapsedIds)
+        }
+        redraw()
+    })
+}
+
+const renderContent = (tests) => {
+    const sortAttr = getSort(manager.initialSort)
+    const sortAsc = JSON.parse(getSortDirection())
+    const rows = tests.map(dom.getResultTBody)
+    const table = document.getElementById('results-table')
+    const tableHeader = document.getElementById('results-table-head')
+
+    const newTable = document.createElement('table')
+    newTable.id = 'results-table'
+
+    // remove all sorting classes and set the relevant
+    findAll('.sortable', tableHeader).forEach((elem) => elem.classList.remove('asc', 'desc'))
+    tableHeader.querySelector(`.sortable[data-column-type="${sortAttr}"]`)?.classList.add(sortAsc ? 'desc' : 'asc')
+    newTable.appendChild(tableHeader)
+
+    if (!rows.length) {
+        const emptyTable = document.getElementById('template_results-table__body--empty').content.cloneNode(true)
+        newTable.appendChild(emptyTable)
+    } else {
+        rows.forEach((row) => {
+            if (!!row) {
+                findAll('.collapsible td:not(.col-links', row).forEach(addItemToggleListener)
+                find('.logexpander', row).addEventListener('click',
+                    (evt) => evt.target.parentNode.classList.toggle('expanded'),
+                )
+                newTable.appendChild(row)
+            }
+        })
+    }
+
+    table.replaceWith(newTable)
+}
+
+const renderDerived = () => {
+    const currentFilter = getVisible()
+    possibleFilters.forEach((result) => {
+        const input = document.querySelector(`input[data-test-result="${result}"]`)
+        input.checked = currentFilter.includes(result)
+    })
+}
+
+const bindEvents = () => {
+    const filterColumn = (evt) => {
+        const { target: element } = evt
+        const { testResult } = element.dataset
+
+        doFilter(testResult, element.checked)
+        const collapsedIds = getCollapsedIds()
+        const updated = manager.renderData.tests.map((test) => {
+            return {
+                ...test,
+                collapsed: collapsedIds.includes(test.id),
+            }
+        })
+        manager.setRender(updated)
+        redraw()
+    }
+
+    const header = document.getElementById('environment-header')
+    header.addEventListener('click', () => {
+        const table = document.getElementById('environment')
+        table.classList.toggle('hidden')
+        header.classList.toggle('collapsed')
+    })
+
+    findAll('input[name="filter_checkbox"]').forEach((elem) => {
+        elem.addEventListener('click', filterColumn)
+    })
+
+    findAll('.sortable').forEach((elem) => {
+        elem.addEventListener('click', (evt) => {
+            const { target: element } = evt
+            const { columnType } = element.dataset
+            doSort(columnType)
+            redraw()
+        })
+    })
+
+    document.getElementById('show_all_details').addEventListener('click', () => {
+        manager.allCollapsed = false
+        setCollapsedIds([])
+        redraw()
+    })
+    document.getElementById('hide_all_details').addEventListener('click', () => {
+        manager.allCollapsed = true
+        const allIds = manager.renderData.tests.map((test) => test.id)
+        setCollapsedIds(allIds)
+        redraw()
+    })
+}
+
+const redraw = () => {
+    const { testSubset } = manager
+
+    renderContent(testSubset)
+    renderDerived()
+}
+
+module.exports = {
+    redraw,
+    bindEvents,
+    renderStatic,
+}
+
+},{"./datamanager.js":1,"./dom.js":2,"./filter.js":3,"./sort.js":7,"./storage.js":8}],6:[function(require,module,exports){
+class MediaViewer {
+    constructor(assets) {
+        this.assets = assets
+        this.index = 0
+    }
+
+    nextActive() {
+        this.index = this.index === this.assets.length - 1 ? 0 : this.index + 1
+        return [this.activeFile, this.index]
+    }
+
+    prevActive() {
+        this.index = this.index === 0 ? this.assets.length - 1 : this.index -1
+        return [this.activeFile, this.index]
+    }
+
+    get currentIndex() {
+        return this.index
+    }
+
+    get activeFile() {
+        return this.assets[this.index]
+    }
+}
+
+
+const setup = (resultBody, assets) => {
+    if (!assets.length) {
+        resultBody.querySelector('.media').classList.add('hidden')
+        return
+    }
+
+    const mediaViewer = new MediaViewer(assets)
+    const container = resultBody.querySelector('.media-container')
+    const leftArrow = resultBody.querySelector('.media-container__nav--left')
+    const rightArrow = resultBody.querySelector('.media-container__nav--right')
+    const mediaName = resultBody.querySelector('.media__name')
+    const counter = resultBody.querySelector('.media__counter')
+    const imageEl = resultBody.querySelector('img')
+    const sourceEl = resultBody.querySelector('source')
+    const videoEl = resultBody.querySelector('video')
+
+    const setImg = (media, index) => {
+        if (media?.format_type === 'image') {
+            imageEl.src = media.path
+
+            imageEl.classList.remove('hidden')
+            videoEl.classList.add('hidden')
+        } else if (media?.format_type === 'video') {
+            sourceEl.src = media.path
+
+            videoEl.classList.remove('hidden')
+            imageEl.classList.add('hidden')
+        }
+
+        mediaName.innerText = media?.name
+        counter.innerText = `${index + 1} / ${assets.length}`
+    }
+    setImg(mediaViewer.activeFile, mediaViewer.currentIndex)
+
+    const moveLeft = () => {
+        const [media, index] = mediaViewer.prevActive()
+        setImg(media, index)
+    }
+    const doRight = () => {
+        const [media, index] = mediaViewer.nextActive()
+        setImg(media, index)
+    }
+    const openImg = () => {
+        window.open(mediaViewer.activeFile.path, '_blank')
+    }
+    if (assets.length === 1) {
+        container.classList.add('media-container--fullscreen')
+    } else {
+        leftArrow.addEventListener('click', moveLeft)
+        rightArrow.addEventListener('click', doRight)
+    }
+    imageEl.addEventListener('click', openImg)
+}
+
+module.exports = {
+    setup,
+}
+
+},{}],7:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const storageModule = require('./storage.js')
+
+const genericSort = (list, key, ascending, customOrder) => {
+    let sorted
+    if (customOrder) {
+        sorted = list.sort((a, b) => {
+            const aValue = a.result.toLowerCase()
+            const bValue = b.result.toLowerCase()
+
+            const aIndex = customOrder.findIndex((item) => item.toLowerCase() === aValue)
+            const bIndex = customOrder.findIndex((item) => item.toLowerCase() === bValue)
+
+            // Compare the indices to determine the sort order
+            return aIndex - bIndex
+        })
+    } else {
+        sorted = list.sort((a, b) => a[key] === b[key] ? 0 : a[key] > b[key] ? 1 : -1)
+    }
+
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const durationSort = (list, ascending) => {
+    const parseDuration = (duration) => {
+        if (duration.includes(':')) {
+            // If it's in the format "HH:mm:ss"
+            const [hours, minutes, seconds] = duration.split(':').map(Number)
+            return (hours * 3600 + minutes * 60 + seconds) * 1000
+        } else {
+            // If it's in the format "nnn ms"
+            return parseInt(duration)
+        }
+    }
+    const sorted = list.sort((a, b) => parseDuration(a['duration']) - parseDuration(b['duration']))
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const doInitSort = () => {
+    const type = storageModule.getSort(manager.initialSort)
+    const ascending = storageModule.getSortDirection()
+    const list = manager.testSubset
+    const initialOrder = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed', 'Skipped', 'Passed']
+
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    if (type?.toLowerCase() === 'original') {
+        manager.setRender(list)
+    } else {
+        let sortedList
+        switch (type) {
+        case 'duration':
+            sortedList = durationSort(list, ascending)
+            break
+        case 'result':
+            sortedList = genericSort(list, type, ascending, initialOrder)
+            break
+        default:
+            sortedList = genericSort(list, type, ascending)
+            break
+        }
+        manager.setRender(sortedList)
+    }
+}
+
+const doSort = (type, skipDirection) => {
+    const newSortType = storageModule.getSort(manager.initialSort) !== type
+    const currentAsc = storageModule.getSortDirection()
+    let ascending
+    if (skipDirection) {
+        ascending = currentAsc
+    } else {
+        ascending = newSortType ? false : !currentAsc
+    }
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    const list = manager.testSubset
+    const sortedList = type === 'duration' ? durationSort(list, ascending) : genericSort(list, type, ascending)
+    manager.setRender(sortedList)
+}
+
+module.exports = {
+    doInitSort,
+    doSort,
+}
+
+},{"./datamanager.js":1,"./storage.js":8}],8:[function(require,module,exports){
+const possibleFilters = [
+    'passed',
+    'skipped',
+    'failed',
+    'error',
+    'xfailed',
+    'xpassed',
+    'rerun',
+]
+
+const getVisible = () => {
+    const url = new URL(window.location.href)
+    const settings = new URLSearchParams(url.search).get('visible')
+    const lower = (item) => {
+        const lowerItem = item.toLowerCase()
+        if (possibleFilters.includes(lowerItem)) {
+            return lowerItem
+        }
+        return null
+    }
+    return settings === null ?
+        possibleFilters :
+        [...new Set(settings?.split(',').map(lower).filter((item) => item))]
+}
+
+const hideCategory = (categoryToHide) => {
+    const url = new URL(window.location.href)
+    const visibleParams = new URLSearchParams(url.search).get('visible')
+    const currentVisible = visibleParams ? visibleParams.split(',') : [...possibleFilters]
+    const settings = [...new Set(currentVisible)].filter((f) => f !== categoryToHide).join(',')
+
+    url.searchParams.set('visible', settings)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const showCategory = (categoryToShow) => {
+    if (typeof window === 'undefined') {
+        return
+    }
+    const url = new URL(window.location.href)
+    const currentVisible = new URLSearchParams(url.search).get('visible')?.split(',').filter(Boolean) ||
+        [...possibleFilters]
+    const settings = [...new Set([categoryToShow, ...currentVisible])]
+    const noFilter = possibleFilters.length === settings.length || !settings.length
+
+    noFilter ? url.searchParams.delete('visible') : url.searchParams.set('visible', settings.join(','))
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getSort = (initialSort) => {
+    const url = new URL(window.location.href)
+    let sort = new URLSearchParams(url.search).get('sort')
+    if (!sort) {
+        sort = initialSort || 'result'
+    }
+    return sort
+}
+
+const setSort = (type) => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('sort', type)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getCollapsedCategory = (renderCollapsed) => {
+    let categories
+    if (typeof window !== 'undefined') {
+        const url = new URL(window.location.href)
+        const collapsedItems = new URLSearchParams(url.search).get('collapsed')
+        switch (true) {
+        case !renderCollapsed && collapsedItems === null:
+            categories = ['passed']
+            break
+        case collapsedItems?.length === 0 || /^["']{2}$/.test(collapsedItems):
+            categories = []
+            break
+        case /^all$/.test(collapsedItems) || collapsedItems === null && /^all$/.test(renderCollapsed):
+            categories = [...possibleFilters]
+            break
+        default:
+            categories = collapsedItems?.split(',').map((item) => item.toLowerCase()) || renderCollapsed
+            break
+        }
+    } else {
+        categories = []
+    }
+    return categories
+}
+
+const getSortDirection = () => JSON.parse(sessionStorage.getItem('sortAsc')) || false
+const setSortDirection = (ascending) => sessionStorage.setItem('sortAsc', ascending)
+
+const getCollapsedIds = () => JSON.parse(sessionStorage.getItem('collapsedIds')) || []
+const setCollapsedIds = (list) => sessionStorage.setItem('collapsedIds', JSON.stringify(list))
+
+module.exports = {
+    getVisible,
+    hideCategory,
+    showCategory,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    setSort,
+    getSortDirection,
+    setSortDirection,
+    getCollapsedCategory,
+    possibleFilters,
+}
+
+},{}]},{},[4]);
+    </script>
+  </footer>
+</html>

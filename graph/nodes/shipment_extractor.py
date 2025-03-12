@@ -171,22 +171,8 @@ def extract_shipment_data(chain, input_text: str) -> Dict[str, Any]:
         # Konvertiere zu Dictionary für Weiterverarbeitung
         extracted_data = result.model_dump()
         
-        # Zusätzliche Validierung der extrahierten Daten
-        if not extracted_data.get("items"):
-            return {
-                "extracted_data": extracted_data,
-                "message": "Warnung: Keine Sendungspositionen gefunden."
-            }
-        
-        # Formatierungsprüfung für jede Position
-        for item in extracted_data.get("items", []):
-            if item.get("length", 0) <= 0 or item.get("width", 0) <= 0 or item.get("height", 0) <= 0:
-                return {
-                    "extracted_data": extracted_data,
-                    "message": "Warnung: Einige Positionen haben ungültige Abmessungen."
-                }
-        
-        # Erfolgreiche Extraktion
+        # Erfolgreiche Extraktion - wir überlassen die Validierung dem LLM
+        # und übernehmen die Nachricht direkt vom LLM
         return {
             "extracted_data": extracted_data,
             "message": message or "Extraktion erfolgreich."

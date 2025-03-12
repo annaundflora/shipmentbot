@@ -72,41 +72,20 @@ def test_create_error_response():
     assert result["message"] == ERROR_MESSAGES["format_error"].format("Test-Fehler")
 
 
-def test_extract_shipment_data_with_empty_items():
-    """Test, dass extract_shipment_data eine Warnung zurückgibt, wenn keine Items gefunden wurden."""
+def test_extract_shipment_data_successful():
+    """Test, dass extract_shipment_data die Daten und Nachricht korrekt extrahiert."""
     # Mock für Chain erstellen
     chain_mock = MagicMock()
     
-    # Erstelle einen Mock mit leerer Items-Liste
+    # Erstelle einen Mock mit Daten
     mock_result = MagicMock()
-    mock_result.model_dump.return_value = {"items": [], "shipment_notes": ""}
-    mock_result.message = "Erfolgreiche Extraktion"
-    
-    # Patch für invoke_chain_with_retry
-    with patch('graph.nodes.shipment_extractor.invoke_chain_with_retry', return_value=mock_result):
-        result = extract_shipment_data(chain_mock, "Test-Input")
-        
-        # Überprüfungen
-        assert result["extracted_data"] is not None
-        assert "items" in result["extracted_data"]
-        assert len(result["extracted_data"]["items"]) == 0
-        assert result["message"] == "Warnung: Keine Sendungspositionen gefunden."
-
-
-def test_extract_shipment_data_with_invalid_dimensions():
-    """Test, dass extract_shipment_data eine Warnung zurückgibt, wenn ungültige Abmessungen gefunden wurden."""
-    # Mock für Chain erstellen
-    chain_mock = MagicMock()
-    
-    # Erstelle einen Mock mit ungültigen Abmessungen
-    mock_result = MagicMock()
-    mock_result.model_dump.return_value = {
+    extracted_data = {
         "items": [
             {
                 "load_carrier": 1,
                 "name": "Testpaket",
                 "quantity": 3,
-                "length": 0,  # Ungültige Länge
+                "length": 120,
                 "width": 80,
                 "height": 100,
                 "weight": 50,
@@ -115,16 +94,16 @@ def test_extract_shipment_data_with_invalid_dimensions():
         ],
         "shipment_notes": "Test notes"
     }
-    mock_result.message = "Erfolgreiche Extraktion"
+    mock_result.model_dump.return_value = extracted_data
+    mock_result.message = "LLM hat folgende Daten extrahiert und validiert"
     
     # Patch für invoke_chain_with_retry
     with patch('graph.nodes.shipment_extractor.invoke_chain_with_retry', return_value=mock_result):
         result = extract_shipment_data(chain_mock, "Test-Input")
         
         # Überprüfungen
-        assert result["extracted_data"] is not None
-        assert "items" in result["extracted_data"]
-        assert result["message"] == "Warnung: Einige Positionen haben ungültige Abmessungen."
+        assert result["extracted_data"] == extracted_data
+        assert result["message"] == "LLM hat folgende Daten extrahiert und validiert"
 
 
 def test_extract_shipment_data_with_timeout():

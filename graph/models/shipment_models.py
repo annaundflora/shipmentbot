@@ -1,5 +1,7 @@
 """
-Shipment models for structured output in the shipment extractor.
+Shipment models for structured output.
+
+Diese Datei definiert die Datenmodelle für die Extraktion von Sendungsdaten.
 """
 from enum import IntEnum
 from typing import Optional, List

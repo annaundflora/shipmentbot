@@ -42,13 +42,4 @@ def create_shipment_graph(with_checkpointer=False):
     # Kompiliere den Graph
     compiled_graph = graph.compile(checkpointer=checkpointer)
     
-    # Versuche, den Graph zu visualisieren
-    try:
-        png_data = compiled_graph.get_graph().draw_mermaid_png()
-        with open("workflow_graph.png", "wb") as f:
-            f.write(png_data)
-        print("Workflow-Diagramm wurde als 'workflow_graph.png' gespeichert.")
-    except Exception as e:
-        print(f"Visualisierung konnte nicht erstellt werden: {e}")
-    
     return compiled_graph 

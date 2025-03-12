@@ -16,7 +16,7 @@ class ShipmentState(TypedDict):
     extracted_data: Optional[Dict[str, Any]]  # Explizit Optional
     message: Optional[str]  # Explizit Optional
 
-def validate_state(state: ShipmentState) -> ShipmentState:
+def validate_state(state: Dict[str, Any]) -> Dict[str, Any]:
     """
     Validiert und ergänzt fehlende Felder im State.
     
@@ -26,17 +26,20 @@ def validate_state(state: ShipmentState) -> ShipmentState:
     Returns:
         Ein validierter Zustand mit allen erforderlichen Feldern
     """
+    # Erstellen einer Kopie des Zustands, um das Original nicht zu verändern
+    validated_state = state.copy()
+    
     # Stelle sicher, dass messages ein List[str] ist
-    if "messages" not in state or not isinstance(state["messages"], list):
-        state["messages"] = []
+    if "messages" not in validated_state or not isinstance(validated_state["messages"], list):
+        validated_state["messages"] = []
     
     # Stelle sicher, dass extracted_data und message existieren
-    if "extracted_data" not in state:
-        state["extracted_data"] = None
-    if "message" not in state:
-        state["message"] = None
+    if "extracted_data" not in validated_state:
+        validated_state["extracted_data"] = None
+    if "message" not in validated_state:
+        validated_state["message"] = None
     
-    return state
+    return validated_state
 
 def create_shipment_graph(with_checkpointer: bool = False) -> Callable:
     """
@@ -51,15 +54,16 @@ def create_shipment_graph(with_checkpointer: bool = False) -> Callable:
     # Erstelle den Graph mit dem definierten Zustandstyp
     graph = StateGraph(ShipmentState)
     
+    # Füge die Validierungsfunktion als separaten Knoten hinzu
+    graph.add_node("validate", validate_state)
+    
     # Füge den Shipment-Extraktor als Knoten hinzu
     graph.add_node("shipment_extractor", process_shipment)
     
-    # Definiere die Kanten
-    graph.add_edge(START, "shipment_extractor")
+    # Definiere die Kanten - mit Validierung als ersten Schritt
+    graph.add_edge(START, "validate")
+    graph.add_edge("validate", "shipment_extractor")
     graph.add_edge("shipment_extractor", END)
-    
-    # Setze den Validierungsschritt als Entry Point
-    graph.set_entry_point(validate_state)
     
     # Erstelle einen Checkpointer für Persistenz, falls gewünscht
     checkpointer = MemorySaver() if with_checkpointer else None

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="15" time="0.990" timestamp="2025-03-12T13:20:19.960952+01:00" hostname="Air-von-Clemens.fritz.box"><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_basic_workflow" time="0.004" /><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_validation" time="0.002" /><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_error_handling" time="0.002" /><testcase classname="tests.unit.test_shipment_models" name="test_shipment_item_initialization" time="0.000" /><testcase classname="tests.unit.test_shipment_models" name="test_shipment_initialization" time="0.000" /><testcase classname="tests.unit.test_shipment_models" name="test_load_carrier_type_enum" time="0.000" /><testcase classname="tests.unit.test_simple_utils" name="test_process_shipment_prompt_not_found" time="0.000" /><testcase classname="tests.unit.test_simple_utils" name="test_process_shipment_extraction_error" time="0.014"><failure message="AssertionError: assert &lt;MagicMock name='ChatAnthropic().with_structured_output()().model_dump()' id='4372335984'&gt; is None">mock_llm = &lt;MagicMock name='ChatAnthropic' id='4371575344'&gt;
+mock_load_prompt = &lt;MagicMock name='load_prompt' id='4371577360'&gt;
+
+    @patch('graph.nodes.shipment_extractor.load_prompt')
+    @patch('graph.nodes.shipment_extractor.ChatAnthropic')
+    def test_process_shipment_extraction_error(mock_llm, mock_load_prompt):
+        """Test, dass process_shipment bei einer ValueError einen Fehler zurückgibt."""
+        # Mock für den Prompt
+        mock_prompt = MagicMock()
+        mock_load_prompt.return_value = mock_prompt
+    
+        # Mock für das LLM
+        mock_structured_llm = MagicMock()
+        mock_llm.return_value.with_structured_output.return_value = mock_structured_llm
+    
+        # Mock die Pipeline mit | Operator
+        mock_chain = MagicMock()
+        mock_chain.invoke.side_effect = ValueError("Test error")
+    
+        # Ermögliche die Verkettung von Mocks mit dem Pipe-Operator
+        mock_prompt.__or__.return_value = mock_chain
+    
+        # Testdaten
+        state = {"messages": ["Test message"]}
+    
+        # Test der Funktion
+        result = process_shipment(state)
+    
+        # Überprüfungen
+&gt;       assert result["extracted_data"] is None
+E       AssertionError: assert &lt;MagicMock name='ChatAnthropic().with_structured_output()().model_dump()' id='4372335984'&gt; is None
+
+tests/unit/test_simple_utils.py:52: AssertionError</failure></testcase><testcase classname="tests.unit.test_simple_utils" name="test_process_shipment_success" time="0.001"><failure message="ValueError: &quot;Shipment&quot; object has no field &quot;model_dump&quot;">mock_llm = &lt;MagicMock name='ChatAnthropic' id='4372340016'&gt;
+mock_load_prompt = &lt;MagicMock name='load_prompt' id='4372340352'&gt;
+
+    @patch('graph.nodes.shipment_extractor.load_prompt')
+    @patch('graph.nodes.shipment_extractor.ChatAnthropic')
+    def test_process_shipment_success(mock_llm, mock_load_prompt):
+        """Test für eine erfolgreiche Extraktion."""
+        # Mock für den Prompt
+        mock_prompt = MagicMock()
+        mock_load_prompt.return_value = mock_prompt
+    
+        # Erstelle ein Shipment-Objekt als Rückgabewert
+        test_shipment = Shipment(
+            items=[
+                ShipmentItem(
+                    load_carrier=LoadCarrierType.PALLET,
+                    name="Testpaket",
+                    quantity=3,
+                    length=120,
+                    width=80,
+                    height=100,
+                    weight=50,
+                    stackable=True
+                )
+            ],
+            shipment_notes="Test notes"
+        )
+        setattr(test_shipment, "message", "Successful extraction")
+    
+        # Mock für das LLM und die Chain
+        mock_structured_llm = MagicMock()
+        mock_chain = MagicMock()
+        mock_chain.invoke.return_value = test_shipment
+    
+        # Verkettungen konfigurieren
+        mock_llm.return_value.with_structured_output.return_value = mock_structured_llm
+        mock_prompt.__or__.return_value = mock_chain
+    
+        # Testdaten
+        state = {"messages": ["Test message"]}
+    
+        # Konfiguriere das model_dump zu einem echten Dictionary
+        test_dict = {
+            "items": [
+                {
+                    "load_carrier": 1,
+                    "name": "Testpaket",
+                    "quantity": 3,
+                    "length": 120,
+                    "width": 80,
+                    "height": 100,
+                    "weight": 50,
+                    "stackable": True
+                }
+            ],
+            "shipment_notes": "Test notes"
+        }
+&gt;       test_shipment.model_dump = MagicMock(return_value=test_dict)
+
+tests/unit/test_simple_utils.py:115: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Shipment(items=[ShipmentItem(load_carrier=&lt;LoadCarrierType.PALLET: 1&gt;, name='Testpaket', quantity=3, length=120, width=80, height=100, weight=50, stackable=True)], shipment_notes='Test notes', message='Successful extraction')
+name = 'model_dump', value = &lt;MagicMock id='4372343376'&gt;
+
+    def __setattr__(self, name: str, value: Any) -&gt; None:
+        if name in self.__class_vars__:
+            raise AttributeError(
+                f'{name!r} is a ClassVar of `{self.__class__.__name__}` and cannot be set on an instance. '
+                f'If you want to set a value on the class, use `{self.__class__.__name__}.{name} = value`.'
+            )
+        elif not _fields.is_valid_field_name(name):
+            if self.__pydantic_private__ is None or name not in self.__private_attributes__:
+                _object_setattr(self, name, value)
+            else:
+                attribute = self.__private_attributes__[name]
+                if hasattr(attribute, '__set__'):
+                    attribute.__set__(self, value)  # type: ignore
+                else:
+                    self.__pydantic_private__[name] = value
+            return
+    
+        self._check_frozen(name, value)
+    
+        attr = getattr(self.__class__, name, None)
+        # NOTE: We currently special case properties and `cached_property`, but we might need
+        # to generalize this to all data/non-data descriptors at some point. For non-data descriptors
+        # (such as `cached_property`), it isn't obvious though. `cached_property` caches the value
+        # to the instance's `__dict__`, but other non-data descriptors might do things differently.
+        if isinstance(attr, property):
+            attr.__set__(self, value)
+        elif isinstance(attr, cached_property):
+            self.__dict__[name] = value
+        elif self.model_config.get('validate_assignment', None):
+            self.__pydantic_validator__.validate_assignment(self, name, value)
+        elif self.model_config.get('extra') != 'allow' and name not in self.__pydantic_fields__:
+            # TODO - matching error
+&gt;           raise ValueError(f'"{self.__class__.__name__}" object has no field "{name}"')
+E           ValueError: "Shipment" object has no field "model_dump"
+
+venv/lib/python3.13/site-packages/pydantic/main.py:925: ValueError</failure></testcase><testcase classname="tests.unit.test_simple_utils" name="test_process_shipment_type_error" time="0.003"><failure message="AssertionError: assert &lt;MagicMock name='ChatAnthropic().with_structured_output()().model_dump()' id='4373102672'&gt; is None">mock_llm = &lt;MagicMock name='ChatAnthropic' id='4372341024'&gt;
+mock_load_prompt = &lt;MagicMock name='load_prompt' id='4372343712'&gt;
+
+    @patch('graph.nodes.shipment_extractor.load_prompt')
+    @patch('graph.nodes.shipment_extractor.ChatAnthropic')
+    def test_process_shipment_type_error(mock_llm, mock_load_prompt):
+        """Test, dass process_shipment bei einem TypeError einen Fehler zurückgibt."""
+        # Mock für den Prompt
+        mock_prompt = MagicMock()
+        mock_load_prompt.return_value = mock_prompt
+    
+        # Mock für das LLM
+        mock_structured_llm = MagicMock()
+        mock_llm.return_value.with_structured_output.return_value = mock_structured_llm
+    
+        # Mock die Pipeline mit | Operator
+        mock_chain = MagicMock()
+        mock_chain.invoke.side_effect = TypeError("Test type error")
+    
+        # Ermögliche die Verkettung von Mocks mit dem Pipe-Operator
+        mock_prompt.__or__.return_value = mock_chain
+    
+        # Testdaten
+        state = {"messages": ["Test message"]}
+    
+        # Test der Funktion
+        result = process_shipment(state)
+    
+        # Überprüfungen
+&gt;       assert result["extracted_data"] is None
+E       AssertionError: assert &lt;MagicMock name='ChatAnthropic().with_structured_output()().model_dump()' id='4373102672'&gt; is None
+
+tests/unit/test_simple_utils.py:160: AssertionError</failure></testcase><testcase classname="tests.unit.test_state_validation" name="test_validate_state_empty" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_with_data" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_with_partial_data" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_invalid_messages" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_immutability" time="0.000" /></testsuite></testsuites>

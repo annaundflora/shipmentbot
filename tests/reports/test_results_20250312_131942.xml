@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="15" time="0.902" timestamp="2025-03-12T13:19:42.641969+01:00" hostname="Air-von-Clemens.fritz.box"><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_basic_workflow" time="0.006" /><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_validation" time="0.002" /><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_error_handling" time="0.001" /><testcase classname="tests.unit.test_shipment_models" name="test_shipment_item_initialization" time="0.000" /><testcase classname="tests.unit.test_shipment_models" name="test_shipment_initialization" time="0.000" /><testcase classname="tests.unit.test_shipment_models" name="test_load_carrier_type_enum" time="0.000" /><testcase classname="tests.unit.test_simple_utils" name="test_load_prompt_error" time="0.001"><failure message="AttributeError: 'Client' object attribute 'pull_prompt' is read-only">self = &lt;unittest.mock._patch object at 0x11b6417f0&gt;
+
+    def __enter__(self):
+        """Perform the patch."""
+        if self.is_started:
+            raise RuntimeError("Patch is already started")
+    
+        new, spec, spec_set = self.new, self.spec, self.spec_set
+        autospec, kwargs = self.autospec, self.kwargs
+        new_callable = self.new_callable
+        self.target = self.getter()
+    
+        # normalise False to None
+        if spec is False:
+            spec = None
+        if spec_set is False:
+            spec_set = None
+        if autospec is False:
+            autospec = None
+    
+        if spec is not None and autospec is not None:
+            raise TypeError("Can't specify spec and autospec")
+        if ((spec is not None or autospec is not None) and
+            spec_set not in (True, None)):
+            raise TypeError("Can't provide explicit spec_set *and* spec or autospec")
+    
+        original, local = self.get_original()
+    
+        if new is DEFAULT and autospec is None:
+            inherit = False
+            if spec is True:
+                # set spec to the object we are replacing
+                spec = original
+                if spec_set is True:
+                    spec_set = original
+                    spec = None
+            elif spec is not None:
+                if spec_set is True:
+                    spec_set = spec
+                    spec = None
+            elif spec_set is True:
+                spec_set = original
+    
+            if spec is not None or spec_set is not None:
+                if original is DEFAULT:
+                    raise TypeError("Can't use 'spec' with create=True")
+                if isinstance(original, type):
+                    # If we're patching out a class and there is a spec
+                    inherit = True
+    
+            # Determine the Klass to use
+            if new_callable is not None:
+                Klass = new_callable
+            elif spec is None and _is_async_obj(original):
+                Klass = AsyncMock
+            elif spec is not None or spec_set is not None:
+                this_spec = spec
+                if spec_set is not None:
+                    this_spec = spec_set
+                if _is_list(this_spec):
+                    not_callable = '__call__' not in this_spec
+                else:
+                    not_callable = not callable(this_spec)
+                if _is_async_obj(this_spec):
+                    Klass = AsyncMock
+                elif not_callable:
+                    Klass = NonCallableMagicMock
+                else:
+                    Klass = MagicMock
+            else:
+                Klass = MagicMock
+    
+            _kwargs = {}
+            if spec is not None:
+                _kwargs['spec'] = spec
+            if spec_set is not None:
+                _kwargs['spec_set'] = spec_set
+    
+            # add a name to mocks
+            if (isinstance(Klass, type) and
+                issubclass(Klass, NonCallableMock) and self.attribute):
+                _kwargs['name'] = self.attribute
+    
+            _kwargs.update(kwargs)
+            new = Klass(**_kwargs)
+    
+            if inherit and _is_instance_mock(new):
+                # we can only tell if the instance should be callable if the
+                # spec is not a list
+                this_spec = spec
+                if spec_set is not None:
+                    this_spec = spec_set
+                if (not _is_list(this_spec) and not
+                    _instance_callable(this_spec)):
+                    Klass = NonCallableMagicMock
+    
+                _kwargs.pop('name')
+                new.return_value = Klass(_new_parent=new, _new_name='()',
+                                         **_kwargs)
+        elif autospec is not None:
+            # spec is ignored, new *must* be default, spec_set is treated
+            # as a boolean. Should we check spec is not None and that spec_set
+            # is a bool?
+            if new is not DEFAULT:
+                raise TypeError(
+                    "autospec creates the mock for you. Can't specify "
+                    "autospec and new."
+                )
+            if original is DEFAULT:
+                raise TypeError("Can't use 'autospec' with create=True")
+            spec_set = bool(spec_set)
+            if autospec is True:
+                autospec = original
+    
+            if _is_instance_mock(self.target):
+                raise InvalidSpecError(
+                    f'Cannot autospec attr {self.attribute!r} as the patch '
+                    f'target has already been mocked out. '
+                    f'[target={self.target!r}, attr={autospec!r}]')
+            if _is_instance_mock(autospec):
+                target_name = getattr(self.target, '__name__', self.target)
+                raise InvalidSpecError(
+                    f'Cannot autospec attr {self.attribute!r} from target '
+                    f'{target_name!r} as it has already been mocked out. '
+                    f'[target={self.target!r}, attr={autospec!r}]')
+    
+            new = create_autospec(autospec, spec_set=spec_set,
+                                  _name=self.attribute, **kwargs)
+        elif kwargs:
+            # can't set keyword args when we aren't creating the mock
+            # XXXX If new is a Mock we could call new.configure_mock(**kwargs)
+            raise TypeError("Can't pass kwargs to a mock we aren't creating")
+    
+        new_attr = new
+    
+        self.temp_original = original
+        self.is_local = local
+        self._exit_stack = contextlib.ExitStack()
+        self.is_started = True
+        try:
+&gt;           setattr(self.target, self.attribute, new_attr)
+E           AttributeError: 'Client' object attribute 'pull_prompt' is read-only
+
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:1609: AttributeError
+
+During handling of the above exception, another exception occurred:
+
+    def test_load_prompt_error():
+        """Test, dass load_prompt bei Fehlern None zurückgibt."""
+&gt;       with patch('graph.nodes.shipment_extractor.client.pull_prompt', side_effect=Exception("Test error")), \
+             patch('builtins.open', side_effect=Exception("File error")):
+
+tests/unit/test_simple_utils.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:1622: in __enter__
+    if not self.__exit__(*sys.exc_info()):
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;unittest.mock._patch object at 0x11b6417f0&gt;
+exc_info = (&lt;class 'AttributeError'&gt;, AttributeError("'Client' object attribute 'pull_prompt' is read-only"), &lt;traceback object at 0x11b604e00&gt;)
+
+    def __exit__(self, *exc_info):
+        """Undo the patch."""
+        if not self.is_started:
+            return
+    
+        if self.is_local and self.temp_original is not DEFAULT:
+            setattr(self.target, self.attribute, self.temp_original)
+        else:
+&gt;           delattr(self.target, self.attribute)
+E           AttributeError: 'Client' object attribute 'pull_prompt' is read-only
+
+/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/mock.py:1633: AttributeError</failure></testcase><testcase classname="tests.unit.test_simple_utils" name="test_process_shipment_prompt_not_found" time="0.001" /><testcase classname="tests.unit.test_simple_utils" name="test_process_shipment_extraction_error" time="0.013"><failure message="AssertionError: assert &lt;MagicMock name='mock.with_structured_output()().model_dump()' id='4755134448'&gt; is None">def test_process_shipment_extraction_error():
+        """Test, dass process_shipment bei einer ValueError einen Fehler zurückgibt."""
+        # Mock für den Prompt
+        mock_prompt = MagicMock()
+    
+        # Mock für das LLM, das einen Fehler wirft
+        mock_llm = MagicMock()
+        mock_structured_llm = MagicMock()
+        mock_llm.with_structured_output.return_value = mock_structured_llm
+    
+        # Mock für die Chain
+        mock_chain = MagicMock()
+        # Simuliere eine ValueError beim Aufruf der Chain
+        mock_chain.invoke.side_effect = ValueError("Test error")
+    
+        # Verbinde die Mocks über den Pipe-Operator
+        mock_prompt.__or__ = MagicMock(return_value=mock_chain)
+    
+        with patch('graph.nodes.shipment_extractor.load_prompt', return_value=mock_prompt), \
+             patch('graph.nodes.shipment_extractor.ChatAnthropic', return_value=mock_llm):
+            state = {"messages": ["Test message"]}
+            result = process_shipment(state)
+    
+&gt;           assert result["extracted_data"] is None
+E           AssertionError: assert &lt;MagicMock name='mock.with_structured_output()().model_dump()' id='4755134448'&gt; is None
+
+tests/unit/test_simple_utils.py:60: AssertionError</failure></testcase><testcase classname="tests.unit.test_simple_utils" name="test_process_shipment_success" time="0.003"><failure message="AssertionError: assert 'items' in &lt;MagicMock name='mock.with_structured_output()().model_dump()' id='4755141504'&gt;">def test_process_shipment_success():
+        """Test für eine erfolgreiche Extraktion."""
+        # Mock für den Prompt
+        mock_prompt = MagicMock()
+    
+        # Mock für das LLM
+        mock_llm = MagicMock()
+        mock_structured_llm = MagicMock()
+        mock_llm.with_structured_output.return_value = mock_structured_llm
+    
+        # Mock für die Chain
+        mock_chain = MagicMock()
+    
+        # Erstelle ein Shipment-Objekt als Rückgabewert
+        test_shipment = Shipment(
+            items=[
+                ShipmentItem(
+                    load_carrier=LoadCarrierType.PALLET,
+                    name="Testpaket",
+                    quantity=3,
+                    length=120,
+                    width=80,
+                    height=100,
+                    weight=50,
+                    stackable=True
+                )
+            ],
+            shipment_notes="Test notes"
+        )
+        test_shipment.message = "Successful extraction"
+    
+        # Setze den Rückgabewert für den Chain-Aufruf
+        mock_chain.invoke.return_value = test_shipment
+    
+        # Verbinde die Mocks über den Pipe-Operator
+        mock_prompt.__or__ = MagicMock(return_value=mock_chain)
+    
+        with patch('graph.nodes.shipment_extractor.load_prompt', return_value=mock_prompt), \
+             patch('graph.nodes.shipment_extractor.ChatAnthropic', return_value=mock_llm):
+            state = {"messages": ["Test message"]}
+            result = process_shipment(state)
+    
+            # Überprüfungen
+            assert result["extracted_data"] is not None
+&gt;           assert "items" in result["extracted_data"]
+E           AssertionError: assert 'items' in &lt;MagicMock name='mock.with_structured_output()().model_dump()' id='4755141504'&gt;
+
+tests/unit/test_simple_utils.py:108: AssertionError</failure></testcase><testcase classname="tests.unit.test_state_validation" name="test_validate_state_empty" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_with_data" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_with_partial_data" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_invalid_messages" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_immutability" time="0.000" /></testsuite></testsuites>

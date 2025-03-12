@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="15" time="0.803" timestamp="2025-03-12T13:20:57.199661+01:00" hostname="Air-von-Clemens.fritz.box"><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_basic_workflow" time="0.004" /><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_validation" time="0.002" /><testcase classname="tests.integration.test_shipment_graph" name="test_shipment_graph_error_handling" time="0.001" /><testcase classname="tests.unit.test_shipment_models" name="test_shipment_item_initialization" time="0.000" /><testcase classname="tests.unit.test_shipment_models" name="test_shipment_initialization" time="0.000" /><testcase classname="tests.unit.test_shipment_models" name="test_load_carrier_type_enum" time="0.000" /><testcase classname="tests.unit.test_simple_utils" name="test_process_shipment_prompt_not_found" time="0.000" /><testcase classname="tests.unit.test_simple_utils" name="test_process_shipment_value_error" time="0.003"><failure message="TypeError: isinstance() arg 2 must be a type, a tuple of types, or a union">def test_process_shipment_value_error():
+        """Test, dass process_shipment bei einer ValueError einen Fehler zurückgibt."""
+        # Simuliere die komplette Ausführung mit einer ValueError
+        with patch('graph.nodes.shipment_extractor.load_prompt') as mock_load_prompt, \
+             patch('graph.nodes.shipment_extractor.ChatAnthropic') as mock_llm, \
+             patch('graph.nodes.shipment_extractor.PromptTemplate') as mock_prompt:
+    
+            # Konfiguriere den Mock-LLM, der eine Exception wirft
+            mock_instance = mock_llm.return_value
+            mock_structured = mock_instance.with_structured_output.return_value
+            mock_chain = MagicMock()
+            mock_chain.invoke.side_effect = ValueError("Test error")
+    
+            # Einfacher Prompt-Mock
+            mock_prompt_template = MagicMock()
+            mock_load_prompt.return_value = mock_prompt_template
+    
+            # Konfiguriere die Pipeline
+            mock_prompt_template.__or__.return_value = mock_chain
+    
+            # Ausführung
+            state = {"messages": ["Test message"]}
+&gt;           result = process_shipment(state)
+
+tests/unit/test_simple_utils.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+state = {'messages': ['Test message']}
+
+    def process_shipment(state: Dict[str, Any]) -&gt; Dict[str, Any]:
+        """
+        Führt eine präzise Extraktion der Sendungsdaten durch.
+        Verwendet das Pydantic-Modell für strukturierte Ausgabe.
+    
+        Args:
+            state: Der aktuelle Zustand mit messages, extracted_data und message
+    
+        Returns:
+            Ein aktualisierter Zustand mit extrahierten Daten und ggf. Fehlermeldungen
+        """
+        messages = state["messages"]
+        input_text = messages[-1]
+    
+        # Prompt aus LangSmith oder lokaler Datei laden
+        prompt_template = load_prompt(DEFAULT_PROMPT_NAME)
+    
+        if prompt_template is None:
+            return {
+                "extracted_data": None,
+                "message": ERROR_MESSAGES["prompt_not_found"]
+            }
+    
+        # LangSmith Tracing einrichten
+        callbacks = []
+        if LANGSMITH_TRACING:
+            callbacks.append(LangChainTracer(
+                project_name=LANGSMITH_PROJECT,
+                tags=["shipment_extractor"]
+            ))
+    
+        # Erstelle PromptTemplate, falls es noch keines ist
+&gt;       if not isinstance(prompt_template, PromptTemplate):
+E       TypeError: isinstance() arg 2 must be a type, a tuple of types, or a union
+
+graph/nodes/shipment_extractor.py:101: TypeError</failure></testcase><testcase classname="tests.unit.test_simple_utils" name="test_process_shipment_type_error" time="0.001"><failure message="TypeError: isinstance() arg 2 must be a type, a tuple of types, or a union">def test_process_shipment_type_error():
+        """Test, dass process_shipment bei einem TypeError einen Fehler zurückgibt."""
+        # Simuliere die komplette Ausführung mit einem TypeError
+        with patch('graph.nodes.shipment_extractor.load_prompt') as mock_load_prompt, \
+             patch('graph.nodes.shipment_extractor.ChatAnthropic') as mock_llm, \
+             patch('graph.nodes.shipment_extractor.PromptTemplate') as mock_prompt:
+    
+            # Konfiguriere den Mock-LLM, der eine Exception wirft
+            mock_instance = mock_llm.return_value
+            mock_structured = mock_instance.with_structured_output.return_value
+            mock_chain = MagicMock()
+            mock_chain.invoke.side_effect = TypeError("Test type error")
+    
+            # Einfacher Prompt-Mock
+            mock_prompt_template = MagicMock()
+            mock_load_prompt.return_value = mock_prompt_template
+    
+            # Konfiguriere die Pipeline
+            mock_prompt_template.__or__.return_value = mock_chain
+    
+            # Ausführung
+            state = {"messages": ["Test message"]}
+&gt;           result = process_shipment(state)
+
+tests/unit/test_simple_utils.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+state = {'messages': ['Test message']}
+
+    def process_shipment(state: Dict[str, Any]) -&gt; Dict[str, Any]:
+        """
+        Führt eine präzise Extraktion der Sendungsdaten durch.
+        Verwendet das Pydantic-Modell für strukturierte Ausgabe.
+    
+        Args:
+            state: Der aktuelle Zustand mit messages, extracted_data und message
+    
+        Returns:
+            Ein aktualisierter Zustand mit extrahierten Daten und ggf. Fehlermeldungen
+        """
+        messages = state["messages"]
+        input_text = messages[-1]
+    
+        # Prompt aus LangSmith oder lokaler Datei laden
+        prompt_template = load_prompt(DEFAULT_PROMPT_NAME)
+    
+        if prompt_template is None:
+            return {
+                "extracted_data": None,
+                "message": ERROR_MESSAGES["prompt_not_found"]
+            }
+    
+        # LangSmith Tracing einrichten
+        callbacks = []
+        if LANGSMITH_TRACING:
+            callbacks.append(LangChainTracer(
+                project_name=LANGSMITH_PROJECT,
+                tags=["shipment_extractor"]
+            ))
+    
+        # Erstelle PromptTemplate, falls es noch keines ist
+&gt;       if not isinstance(prompt_template, PromptTemplate):
+E       TypeError: isinstance() arg 2 must be a type, a tuple of types, or a union
+
+graph/nodes/shipment_extractor.py:101: TypeError</failure></testcase><testcase classname="tests.unit.test_simple_utils" name="test_process_shipment_success" time="0.012"><failure message="AssertionError: assert 'items' in &lt;MagicMock name='ChatAnthropic().with_structured_output()().model_dump()' id='4505203248'&gt;">mock_load_prompt = &lt;MagicMock name='load_prompt' id='4436434560'&gt;
+mock_llm = &lt;MagicMock name='ChatAnthropic' id='4505193840'&gt;
+
+    @patch('graph.nodes.shipment_extractor.ChatAnthropic')
+    @patch('graph.nodes.shipment_extractor.load_prompt')
+    def test_process_shipment_success(mock_load_prompt, mock_llm):
+        """Test für eine erfolgreiche Extraktion."""
+        # Test-Shipment erstellen (ohne Modifikationen)
+        test_shipment = Shipment(
+            items=[
+                ShipmentItem(
+                    load_carrier=LoadCarrierType.PALLET,
+                    name="Testpaket",
+                    quantity=3,
+                    length=120,
+                    width=80,
+                    height=100,
+                    weight=50,
+                    stackable=True
+                )
+            ],
+            shipment_notes="Test notes"
+        )
+    
+        # Setze die Nachricht als Attribut
+        # Wir verwenden dir(test_shipment), um zu sehen welche Attribute verfügbar sind
+        test_shipment.__dict__["message"] = "Successful extraction"
+    
+        # Konfiguriere die Mocks
+        mock_prompt = MagicMock()
+        mock_load_prompt.return_value = mock_prompt
+    
+        # LLM und Chain
+        mock_structured_llm = MagicMock()
+        mock_llm.return_value.with_structured_output.return_value = mock_structured_llm
+    
+        # Chain-Mock erstellen
+        mock_chain = MagicMock()
+        mock_chain.invoke.return_value = test_shipment
+    
+        # Pipeline konfigurieren
+        mock_prompt.__or__.return_value = mock_chain
+    
+        # Testdaten
+        state = {"messages": ["Test message"]}
+    
+        # Ausführung
+        result = process_shipment(state)
+    
+        # Überprüfungen
+        assert "extracted_data" in result
+&gt;       assert "items" in result["extracted_data"]
+E       AssertionError: assert 'items' in &lt;MagicMock name='ChatAnthropic().with_structured_output()().model_dump()' id='4505203248'&gt;
+
+tests/unit/test_simple_utils.py:132: AssertionError</failure></testcase><testcase classname="tests.unit.test_state_validation" name="test_validate_state_empty" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_with_data" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_with_partial_data" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_invalid_messages" time="0.000" /><testcase classname="tests.unit.test_state_validation" name="test_validate_state_immutability" time="0.000" /></testsuite></testsuites>
